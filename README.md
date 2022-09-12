@@ -1,2 +1,6 @@
-# turbulent-test-frontend
-NodeJS/TS events reminder app frontend.
+# Turbulent Test
+
+This repository contains both the frontend and backend.
+
+| [Frontend]() | [Backend]() |
+------------------------------
