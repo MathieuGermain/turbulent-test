@@ -1,6 +1,14 @@
 name: Frontend CI
 
-on: ["push", "pull_request"]
+on:
+  push:
+    branches:
+      - master
+      - dev-frontend
+  pull_request:
+    branches:
+      - master
+      - dev-frontend
 
 jobs:
   test:

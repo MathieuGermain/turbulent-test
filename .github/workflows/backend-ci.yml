@@ -1,6 +1,14 @@
 name: Backend CI
 
-on: ["push", "pull_request"]
+on:
+  push:
+    branches:
+      - master
+      - dev-backend
+  pull_request:
+    branches:
+      - master
+      - dev-backend
 
 jobs:
   test:
@@ -27,5 +35,5 @@ jobs:
       - name: Generating coverage badges
         uses: jpb06/jest-badges-action@latest
         with:
-          branches: master,dev
+          branches: master,dev-backend
           coverage-summary-path: backend-app/coverage/coverage-summary.json
