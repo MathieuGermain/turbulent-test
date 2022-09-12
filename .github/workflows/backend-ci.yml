@@ -6,6 +6,9 @@ jobs:
   test:
 
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend-app
 
     strategy:
       matrix:
@@ -14,7 +17,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
-        working-directory: ./backend-app
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
