@@ -2,10 +2,6 @@ name: Backend CI
 
 on: ["push", "pull_request"]
 
-defaults:
-  run:
-    working-directory: ./backend-app
-
 jobs:
   test:
 
@@ -18,6 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
+        working-directory: ./backend-app
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
