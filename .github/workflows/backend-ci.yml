@@ -1,0 +1,31 @@
+name: Backend CI
+
+on: ["push", "pull_request"]
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend-app
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+          cache-dependency-path: 'backend-app/yarn.lock'
+      - run: yarn install --frozen-lockfile
+      - run: yarn run prod:test
+      - name: Generating coverage badges
+        uses: jpb06/jest-badges-action@latest
+        with:
+          branches: master,dev
+          coverage-summary-path: backend-app/coverage/coverage-summary.json
