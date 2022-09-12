@@ -6,6 +6,7 @@ jobs:
   test:
 
     runs-on: ubuntu-latest
+    env:
       working-directory: ./backend-app
 
     strategy:
