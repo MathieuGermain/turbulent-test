@@ -1,6 +1,7 @@
 # Turbulent Test (Backend)
 
-[![CI](https://github.com/MathieuGermain/turbulent-test/actions/workflows/backend-ci.yml/badge.svg)](https://github.com/MathieuGermain/turbulent-test/actions/workflows/backend-ci.yml)
+![CI](https://github.com/MathieuGermain/turbulent-test/actions/workflows/backend-ci.yml/badge.svg)](https://github.com/MathieuGermain/turbulent-test/actions/workflows/backend-ci.yml)
+![Coverage](./badges/coverage-jest%20coverage.svg)
 
 Backend event reminder app.
 

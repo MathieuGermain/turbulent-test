@@ -24,3 +24,8 @@ jobs:
           cache-dependency-path: 'backend-app/yarn.lock'
       - run: yarn install --frozen-lockfile
       - run: yarn run prod:test
+      - name: Generating coverage badges
+      uses: jpb06/jest-badges-action@latest
+        with:
+          branches: master,dev
+          coverage-summary-path: backend-app/coverage/coverage-summary.json

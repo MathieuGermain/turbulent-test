@@ -1,6 +1,9 @@
 # NPM
 node_modules/
 
+# jest
+/coverage
+
 # Sources
 dist/
 types/
