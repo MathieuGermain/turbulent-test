@@ -2,12 +2,14 @@ name: Frontend CI
 
 on: ["push", "pull_request"]
 
+defaults:
+  run:
+    working-directory: ./frontend-app
+
 jobs:
   test:
 
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./frontend-app
 
     strategy:
       matrix:

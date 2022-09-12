@@ -2,12 +2,14 @@ name: Backend CI
 
 on: ["push", "pull_request"]
 
+defaults:
+  run:
+    working-directory: ./backend-app
+
 jobs:
   test:
 
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./backend-app
 
     strategy:
       matrix:
