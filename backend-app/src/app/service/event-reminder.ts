@@ -1,7 +1,7 @@
-import EventEmitter from 'events';
-import { mkdir, readFile, writeFile } from 'fs/promises';
 import { homedir } from 'os';
+import EventEmitter from 'events';
 import { basename, dirname, join } from 'path';
+import { mkdir, readFile, writeFile } from 'fs/promises';
 
 /**
  * Event Reminder Interface
@@ -46,9 +46,6 @@ export class EventReminderService extends EventEmitter {
         super();
 
         this.serviceId = id;
-
-        // Load stored events
-        EventReminderService.Load(this.serviceId).then((events?: IEventReminder[]) => (this.events = events || []));
     }
 
     /**
@@ -113,9 +110,13 @@ export class EventReminderService extends EventEmitter {
      */
     public start() {
         if (!this.Started) {
-            this.process();
-            console.log(`Service '${this.serviceId}' has started!`);
-            this.emit('onServiceStarted');
+            // Load stored events
+            EventReminderService.Load(this.serviceId).then((events?: IEventReminder[]) => {
+                this.events = events || [];
+                this.process();
+                console.log(`Service '${this.serviceId}' has started!`);
+                this.emit('onServiceStarted');
+            });
         }
     }
 
@@ -134,8 +135,10 @@ export class EventReminderService extends EventEmitter {
     /**
      * Loop throught active event to compare time.
      * Trigger it if trigger time is smaller than current time.
+     * * Made this method public to be able to test it but I wish I knew
+     * a proper and official way to test privates.
      */
-    private async process() {
+    public async process() {
         if (this.processHandle) clearTimeout(this.processHandle);
 
         let triggeredCount = 0;

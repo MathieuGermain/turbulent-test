@@ -1,9 +1,17 @@
 import fs from 'fs/promises';
+import { connect, Socket as ClientSocket } from 'socket.io-client';
 import { EventReminderApplication, ServerAlreadyListening } from './application';
-import { EventReminderService } from './service/event-reminder';
+import { EventReminderService, IEventReminder } from './service/event-reminder';
 
 describe('Event Reminder Application', () => {
     let app: EventReminderApplication;
+    let client: ClientSocket;
+
+    const mockEvent: IEventReminder = {
+        title: 'mocked event',
+        message: 'hello world',
+        triggerTime: Date.now(),
+    };
 
     beforeEach(() => {
         jest.spyOn(fs, 'mkdir').mockImplementation();
@@ -14,6 +22,7 @@ describe('Event Reminder Application', () => {
     });
 
     afterEach(() => {
+        client?.disconnect();
         app.SocketServer.close();
         app.HttpServer.close();
     });
@@ -51,6 +60,29 @@ describe('Event Reminder Application', () => {
             app.stop().then(() => {
                 expect(app.HttpServer.listening).toBeFalsy();
                 done();
+            });
+        });
+    });
+
+    test('client should receive EventReminderTriggered when app service onEventReminderTriggered is emitted', (done) => {
+        app.start().then((port) => {
+            client = connect(`http://localhost:${port}`);
+            client.on('connect', () => {
+                console.log(`client has connected on port ${port}`);
+                client.on('EventReminderTriggered', () => done());
+                app.EventReminderService.addEvent(mockEvent);
+                app.EventReminderService.triggerEvent(0);
+            });
+        });
+    });
+
+    test('client should receive EventReminderAdded when app service onEventReminderAdded is emitted', (done) => {
+        app.start().then((port) => {
+            client = connect(`http://localhost:${port}`);
+            client.on('connect', () => {
+                console.log(`client has connected on port ${port}`);
+                client.on('EventReminderAdded', () => done());
+                app.EventReminderService.addEvent(mockEvent);
             });
         });
     });
