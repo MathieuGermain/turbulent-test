@@ -3,18 +3,17 @@ import { EventReminderService, IEventReminder } from './event-reminder';
 
 describe('Event Reminder Service', () => {
     let service: EventReminderService;
-    let mockEvent: IEventReminder;
+
+    const mockEvent: IEventReminder = {
+        title: 'mocked event',
+        message: 'hello world',
+        triggerTime: Date.now(),
+    };
 
     beforeEach(() => {
         jest.spyOn(fs, 'mkdir').mockImplementation();
         jest.spyOn(fs, 'writeFile').mockImplementation();
         jest.spyOn(fs, 'readFile').mockImplementation();
-
-        mockEvent = {
-            title: 'mocked event',
-            message: 'hello world',
-            triggerTime: Date.now(),
-        };
 
         service = new EventReminderService('test');
     });
