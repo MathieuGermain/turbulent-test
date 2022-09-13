@@ -4,7 +4,7 @@ import { createServer, Server as HttpServer } from 'http';
 import { Server, Socket as ServerSocket } from 'socket.io';
 import { connect, Socket as ClientSocket } from 'socket.io-client';
 import { Session } from './session';
-import { EventReminderService } from './service/event-reminder';
+import { EventReminderService, IEventReminder } from './service/event-reminder';
 
 describe('Socket Session', () => {
     /** socket server */
@@ -70,5 +70,17 @@ describe('Socket Session', () => {
             done();
         });
         session.disconnect();
+    });
+
+    test('expect an event reminder to be added when session receive AddEventReminder command', (done) => {
+        serverSocket.on('AddEventReminder', () => {
+            expect(session.Service.Events.length).toBe(1);
+            done();
+        });
+        clientSocket.emit('AddEventReminder', {
+            title: 'mocked event',
+            message: 'hello world',
+            triggerTime: Date.now(),
+        });
     });
 });

@@ -2,8 +2,15 @@ import { Socket } from 'socket.io';
 import { EventReminderService, IEventReminder } from './service/event-reminder';
 
 export class Session {
-    private service: EventReminderService;
     private socket?: Socket;
+
+    /**
+     * Get the instance of the service
+     */
+    public get Service() {
+        return this.service;
+    }
+    private service: EventReminderService;
 
     public get connected() {
         return this.socket && this.socket.connected;
