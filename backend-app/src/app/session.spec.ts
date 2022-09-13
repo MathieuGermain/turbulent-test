@@ -24,6 +24,7 @@ describe('Socket Session', () => {
 
     // Start socket server at start of test suite
     beforeAll((done) => {
+        jest.spyOn(fs, 'mkdir').mockImplementation();
         jest.spyOn(fs, 'writeFile').mockImplementation();
         jest.spyOn(fs, 'readFile').mockImplementation();
 

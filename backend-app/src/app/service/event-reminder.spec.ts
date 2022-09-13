@@ -6,7 +6,7 @@ describe('Event Reminder Service', () => {
     let mockEvent: IEventReminder;
 
     beforeEach(() => {
-        // Mock fs writeFile and readFile
+        jest.spyOn(fs, 'mkdir').mockImplementation();
         jest.spyOn(fs, 'writeFile').mockImplementation();
         jest.spyOn(fs, 'readFile').mockImplementation();
 

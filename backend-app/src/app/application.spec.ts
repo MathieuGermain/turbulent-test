@@ -6,6 +6,7 @@ describe('Event Reminder Application', () => {
     let app: EventReminderApplication;
 
     beforeEach(() => {
+        jest.spyOn(fs, 'mkdir').mockImplementation();
         jest.spyOn(fs, 'writeFile').mockImplementation();
         jest.spyOn(fs, 'readFile').mockImplementation();
 
