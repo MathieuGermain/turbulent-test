@@ -1,4 +1,6 @@
+import fs from 'fs/promises';
 import { EventReminderApplication, ServerAlreadyListening } from './application';
+import { EventReminderService } from './service/event-reminder';
 
 describe('Event Reminder Application', () => {
     let app: EventReminderApplication;
@@ -6,7 +8,11 @@ describe('Event Reminder Application', () => {
     const port = 4444;
 
     beforeEach(() => {
+        jest.spyOn(fs, 'writeFile').mockImplementation();
+        jest.spyOn(fs, 'readFile').mockImplementation();
+
         app = new EventReminderApplication();
+        app.EventReminderService.PauseProcess = true;
     });
 
     afterEach(() => {
@@ -20,6 +26,10 @@ describe('Event Reminder Application', () => {
 
     test('getter SocketServer should be set', () => {
         expect(app.SocketServer).toBeTruthy();
+    });
+
+    test('getter EventReminderService should be set', () => {
+        expect(app.EventReminderService).toBeInstanceOf(EventReminderService);
     });
 
     test('calling start() twice should throw ServerAlreadyListening error', (done) => {
