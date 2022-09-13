@@ -52,9 +52,6 @@ export class EventReminderApplication {
         this.socketServer = new SocketServer(this.httpServer);
         this.eventReminderService = new EventReminderService(id);
 
-        // Handle process exit
-        process.on('SIGINT', () => console.log('Application is closing...'));
-
         // Wait for event reminder to trigger and emit to everyone
         this.eventReminderService.on('onEventReminderTriggered', (event: IEventReminder, index: number) =>
             this.socketServer.emit('EventReminderTriggered', event, index),
