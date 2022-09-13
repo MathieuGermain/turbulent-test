@@ -51,8 +51,8 @@ export class EventReminderService extends EventEmitter {
         this.processPaused = false;
 
         // First load then start the process
-        EventReminderService.Load(this.serviceId).then((events: IEventReminder[]) => {
-            this.events = events;
+        EventReminderService.Load(this.serviceId).then((events?: IEventReminder[]) => {
+            this.events = events || [];
             this.process();
         });
     }
@@ -68,7 +68,6 @@ export class EventReminderService extends EventEmitter {
         } catch (_) {
             console.log('No store found, starting from zero!');
         }
-        return [];
     }
 
     /**

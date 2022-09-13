@@ -30,12 +30,12 @@ describe('Event Reminder Service', () => {
         expect(events).toStrictEqual([mockEvent]);
     });
 
-    test('Load() should return an empty array', async () => {
+    test('Load() should return undefined', async () => {
         jest.spyOn(fs, 'readFile').mockImplementationOnce(async () => {
             throw 'file doesnt exist';
         });
         const events = await EventReminderService.Load('test');
-        expect(events).toStrictEqual([]);
+        expect(events).toBeUndefined();
     });
 
     test('save() should emit onEventReminderSaved', (done) => {
