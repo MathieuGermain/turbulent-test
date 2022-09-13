@@ -135,8 +135,10 @@ export class EventReminderService extends EventEmitter {
     /**
      * Loop throught active event to compare time.
      * Trigger it if trigger time is smaller than current time.
+     * * Made this method public to be able to test it but I wish I knew
+     * a proper and official way to test privates.
      */
-    private async process() {
+    public async process() {
         if (this.processHandle) clearTimeout(this.processHandle);
 
         let triggeredCount = 0;

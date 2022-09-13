@@ -11,6 +11,8 @@ describe('Event Reminder Service', () => {
     };
 
     beforeEach(() => {
+        jest.useFakeTimers();
+        jest.spyOn(global, 'setTimeout');
         jest.spyOn(fs, 'mkdir').mockImplementation();
         jest.spyOn(fs, 'writeFile').mockImplementation();
         jest.spyOn(fs, 'readFile').mockImplementation();
@@ -86,5 +88,42 @@ describe('Event Reminder Service', () => {
             done();
         });
         service.start();
+    });
+
+    test('expect process to auto-restart', async () => {
+        await service.process();
+        expect(setTimeout).toHaveBeenCalledTimes(1);
+        expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 1000);
+        jest.runOnlyPendingTimers();
+        expect(setTimeout).toHaveBeenCalledTimes(2);
+    });
+
+    test('expect process() to triggerEvent', async () => {
+        const spy = jest.spyOn(service, 'triggerEvent');
+
+        service.addEvent(mockEvent);
+        await service.process();
+        expect(spy).toHaveBeenCalledTimes(1);
+
+        spy.mockRestore();
+    });
+
+    test('expect process() to not triggerEvent', async () => {
+        const spy = jest.spyOn(service, 'triggerEvent');
+
+        await service.process();
+        expect(spy).not.toHaveBeenCalled();
+
+        spy.mockRestore();
+    });
+
+    test('expect process() to call save()', async () => {
+        const spy = jest.spyOn(service, 'save');
+
+        service.addEvent(mockEvent);
+        await service.process();
+        expect(spy).toHaveBeenCalledTimes(1);
+
+        spy.mockRestore();
     });
 });
