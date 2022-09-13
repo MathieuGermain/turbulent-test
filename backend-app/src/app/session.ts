@@ -1,16 +1,17 @@
-import { Server, Socket } from 'socket.io';
+import { Socket } from 'socket.io';
+import { EventReminderService } from './service/event-reminder';
 
 export class Session {
-    private server?: Server;
+    private service?: EventReminderService;
     private socket?: Socket;
 
     public get connected() {
         return this.socket && this.socket.connected;
     }
 
-    constructor(server: Server, socket: Socket) {
+    constructor(service: EventReminderService, socket: Socket) {
         console.log('A client has connected!');
-        this.server = server;
+        this.service = service;
         this.socket = socket;
 
         // Wait for disconnection
