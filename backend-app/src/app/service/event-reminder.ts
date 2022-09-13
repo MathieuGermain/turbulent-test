@@ -28,12 +28,12 @@ export class EventReminderService extends EventEmitter {
      * Pause the check process
      */
     public set PauseProcess(value: boolean) {
-        if (this.pauseProcess != value) {
-            this.pauseProcess = value;
+        if (this.processPaused != value) {
+            this.processPaused = value;
             this.process();
         }
     }
-    private pauseProcess: boolean;
+    private processPaused: boolean;
 
     // Store check process handle
     private processHandle?: NodeJS.Timeout;
@@ -48,7 +48,7 @@ export class EventReminderService extends EventEmitter {
 
         this.serviceId = id;
 
-        this.pauseProcess = false;
+        this.processPaused = false;
 
         // First load then start the process
         EventReminderService.Load(this.serviceId).then((events: IEventReminder[]) => {
@@ -122,7 +122,7 @@ export class EventReminderService extends EventEmitter {
     private async process() {
         if (this.processHandle) clearTimeout(this.processHandle);
 
-        if (this.pauseProcess) return;
+        if (this.processPaused) return;
 
         let triggeredCount = 0;
         const now = Date.now();
