@@ -1,6 +1,7 @@
 import { createServer, Server as HttpServer } from 'http';
 import { AddressInfo } from 'net';
 import { Server as SocketServer } from 'socket.io';
+import { EventReminderService } from './service/event-reminder';
 import { Session } from './session';
 
 /**
@@ -34,9 +35,18 @@ export class EventReminderApplication {
     }
     private socketServer: SocketServer;
 
+    /**
+     * Get event reminder service instance
+     */
+    public get EventReminderService() {
+        return this.eventReminderService;
+    }
+    private eventReminderService: EventReminderService;
+
     constructor() {
         this.httpServer = createServer();
         this.socketServer = new SocketServer(this.httpServer);
+        this.eventReminderService = new EventReminderService();
 
         // Handle process exit
         process.on('SIGINT', async () => await this.handleProcessExit());
