@@ -9,9 +9,9 @@
     "lint": "yarn run eslint --fix --ext .ts src --cache src --cache-location node_modules/.cache/",
     "start": "node ./dist/index.js",
     "dev:build": "nodemon",
-    "dev:test": "jest --watch --coverage --verbose --silent --detectOpenHandles",
+    "dev:test": "jest --watch",
     "prod:build": "yarn clean && yarn lint && yarn run tsc",
-    "prod:test": "jest --ci --coverage --verbose --silent"
+    "prod:test": "jest --ci"
   },
   "author": "MathieuGermain",
   "license": "MIT",
@@ -33,23 +33,5 @@
     "ts-jest": "^29.0.0",
     "ts-node": "^10.9.1",
     "typescript": "^4.8.3"
-  },
-  "jest": {
-    "verbose": true,
-    "collectCoverage": true,
-    "collectCoverageFrom": [
-      "./src/**"
-    ],
-    "coverageReporters": [
-      "json-summary", "html"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "lines": 80
-      }
-    },
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    }
   }
 }
