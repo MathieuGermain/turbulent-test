@@ -93,7 +93,8 @@ export class EventReminderApplication {
      * Stop the server.
      */
     public stop() {
-        this.socketServer.close();
-        this.httpServer.close();
+        return new Promise<Error | undefined>((resolve) => {
+            this.httpServer.close(resolve);
+        });
     }
 }
