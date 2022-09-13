@@ -49,7 +49,12 @@ export class EventReminderApplication {
      */
     constructor(id: string) {
         this.httpServer = createServer();
-        this.socketServer = new SocketServer(this.httpServer);
+        this.socketServer = new SocketServer(this.httpServer, {
+            cors: {
+                origin: '*',
+                methods: ['GET'],
+            },
+        });
         this.eventReminderService = new EventReminderService(id);
 
         // Wait for event reminder to trigger and emit to everyone
