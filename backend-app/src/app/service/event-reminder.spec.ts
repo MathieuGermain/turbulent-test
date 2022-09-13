@@ -17,7 +17,6 @@ describe('Event Reminder Service', () => {
         };
 
         service = new EventReminderService('test');
-        service.PauseProcess = true;
     });
 
     test('getter Events should return an array', () => {
@@ -67,5 +66,22 @@ describe('Event Reminder Service', () => {
         });
         service.addEvent(mockEvent);
         service.triggerEvent(0);
+    });
+
+    test('start() should start the service and emit onServiceStarted', (done) => {
+        service.on('onServiceStarted', () => {
+            expect(service.Started).toBe(true);
+            done();
+        });
+        service.start();
+    });
+
+    test('stop() should stop the service and emit onServiceStopped', (done) => {
+        service.on('onServiceStarted', () => service.stop());
+        service.on('onServiceStopped', () => {
+            expect(service.Started).toBe(false);
+            done();
+        });
+        service.start();
     });
 });

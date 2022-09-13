@@ -25,19 +25,18 @@ export class EventReminderService extends EventEmitter {
     private events: IEventReminder[] = [];
 
     /**
-     * Pause the check process
+     * Check if service is started
      */
-    public set PauseProcess(value: boolean) {
-        if (this.processPaused != value) {
-            this.processPaused = value;
-            this.process();
-        }
+    public get Started() {
+        return this.processHandle != null;
     }
-    private processPaused: boolean;
 
-    // Store check process handle
+    // Current process handle
     private processHandle?: NodeJS.Timeout;
 
+    /**
+     * Get the service ID
+     */
     public get ServiceId() {
         return this.serviceId;
     }
@@ -48,13 +47,8 @@ export class EventReminderService extends EventEmitter {
 
         this.serviceId = id;
 
-        this.processPaused = false;
-
-        // First load then start the process
-        EventReminderService.Load(this.serviceId).then((events?: IEventReminder[]) => {
-            this.events = events || [];
-            setTimeout(() => this.process(), 0);
-        });
+        // Load stored events
+        EventReminderService.Load(this.serviceId).then((events?: IEventReminder[]) => (this.events = events || []));
     }
 
     /**
@@ -115,13 +109,34 @@ export class EventReminderService extends EventEmitter {
     }
 
     /**
+     * Start service
+     */
+    public start() {
+        if (!this.Started) {
+            this.process();
+            console.log(`Service '${this.serviceId}' has started!`);
+            this.emit('onServiceStarted');
+        }
+    }
+
+    /**
+     * Stop service
+     */
+    public stop() {
+        if (this.processHandle) {
+            clearTimeout(this.processHandle);
+            this.processHandle = undefined;
+            console.log(`Service '${this.serviceId}' has stopped!`);
+            this.emit('onServiceStopped');
+        }
+    }
+
+    /**
      * Loop throught active event to compare time.
      * Trigger it if trigger time is smaller than current time.
      */
     private async process() {
         if (this.processHandle) clearTimeout(this.processHandle);
-
-        if (this.processPaused) return;
 
         let triggeredCount = 0;
         const now = Date.now();
@@ -136,6 +151,6 @@ export class EventReminderService extends EventEmitter {
         if (triggeredCount > 0) await this.save().catch(console.error);
 
         // Start process again
-        this.processHandle = setTimeout(this.process, 1000);
+        this.processHandle = setTimeout(() => this.process(), 1000);
     }
 }
