@@ -1,7 +1,7 @@
 import { createServer, Server as HttpServer } from 'http';
 import { AddressInfo } from 'net';
 import { Server as SocketServer } from 'socket.io';
-import { EventReminderService } from './service/event-reminder';
+import { EventReminderService, IEventReminder } from './service/event-reminder';
 import { Session } from './session';
 
 /**
@@ -56,12 +56,12 @@ export class EventReminderApplication {
         process.on('SIGINT', () => console.log('Application is closing...'));
 
         // Wait for event reminder to trigger and emit to everyone
-        this.eventReminderService.on('onEventReminderTriggered', (event, index) =>
+        this.eventReminderService.on('onEventReminderTriggered', (event: IEventReminder, index: number) =>
             this.socketServer.emit('EventReminderTriggered', event, index),
         );
 
         // Wait for new event reminder to be added and emit it to everyone
-        this.eventReminderService.on('onEventReminderAdded', (event, index) =>
+        this.eventReminderService.on('onEventReminderAdded', (event: IEventReminder, index: number) =>
             this.socketServer.emit('EventReminderAdded', event, index),
         );
 
@@ -81,7 +81,7 @@ export class EventReminderApplication {
 
             this.httpServer.listen(port, host, () => {
                 port = (this.httpServer.address() as AddressInfo).port;
-                console.log(`Application running at http://${host}:${port}`);
+                console.log(`Application started on http://${host}:${port}`);
                 resolve(port);
             });
         });
