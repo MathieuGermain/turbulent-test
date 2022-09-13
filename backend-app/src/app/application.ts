@@ -64,6 +64,9 @@ export class EventReminderApplication {
 
         // Create socket session on connection
         this.socketServer.on('connection', (socket) => new Session(this.eventReminderService, socket));
+
+        // Handle application closing
+        process.on('SIGINT', () => this.stop());
     }
 
     /**
@@ -89,6 +92,8 @@ export class EventReminderApplication {
      */
     public stop() {
         return new Promise<Error | undefined>((resolve) => {
+            console.log('Application is stopping...');
+            this.eventReminderService.stop();
             this.httpServer.close(resolve);
         });
     }
