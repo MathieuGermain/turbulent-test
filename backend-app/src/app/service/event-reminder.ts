@@ -28,8 +28,10 @@ export class EventReminderService extends EventEmitter {
      * Pause the check process
      */
     public set PauseProcess(value: boolean) {
-        this.pauseProcess = value;
-        if (!value) this.process();
+        if (this.pauseProcess != value) {
+            this.pauseProcess = value;
+            this.process();
+        }
     }
     private pauseProcess: boolean;
 
