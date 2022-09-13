@@ -1,8 +1,8 @@
 import { Socket } from 'socket.io';
-import { EventReminderService } from './service/event-reminder';
+import { EventReminderService, IEventReminder } from './service/event-reminder';
 
 export class Session {
-    private service?: EventReminderService;
+    private service: EventReminderService;
     private socket?: Socket;
 
     public get connected() {
