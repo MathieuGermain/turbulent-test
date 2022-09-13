@@ -22,6 +22,10 @@ describe('Event Reminder Service', () => {
         expect(service.Events).toBeInstanceOf(Array);
     });
 
+    test('getter ServiceId should return a string', () => {
+        expect(typeof service.ServiceId).toBe('string');
+    });
+
     test('Load() should return an array of IEventReminder', async () => {
         jest.spyOn(fs, 'readFile').mockImplementationOnce(async () => JSON.stringify([mockEvent]));
         const events = await EventReminderService.Load('test');
