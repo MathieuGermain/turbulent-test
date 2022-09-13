@@ -53,7 +53,7 @@ export class EventReminderService extends EventEmitter {
         // First load then start the process
         EventReminderService.Load(this.serviceId).then((events?: IEventReminder[]) => {
             this.events = events || [];
-            this.process();
+            setTimeout(() => this.process(), 0);
         });
     }
 
