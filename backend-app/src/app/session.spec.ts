@@ -24,15 +24,12 @@ describe('Socket Session', () => {
     beforeAll((done) => {
         httpServer = createServer();
         io = new Server(httpServer);
-        httpServer.listen(() => {
-            done();
-        });
+        httpServer.listen(done);
     });
 
     // Stop socket server at end of test suite
-    afterAll(() => {
-        io.close();
-        httpServer.close();
+    afterAll((done) => {
+        httpServer.close(done);
     });
 
     // Connect new socket before each test.
@@ -50,7 +47,7 @@ describe('Socket Session', () => {
     // Disconnect socket after each test
     afterEach(() => {
         serverSocket.disconnect();
-        clientSocket.close();
+        clientSocket.disconnect();
     });
 
     test(`getter 'connected' should be true`, () => {
