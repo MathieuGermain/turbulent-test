@@ -1,8 +1,10 @@
+import fs from 'fs/promises';
 import { AddressInfo } from 'net';
 import { createServer, Server as HttpServer } from 'http';
 import { Server, Socket as ServerSocket } from 'socket.io';
 import { connect, Socket as ClientSocket } from 'socket.io-client';
 import { Session } from './session';
+import { EventReminderService } from './service/event-reminder';
 
 describe('Socket Session', () => {
     /** socket server */
@@ -22,6 +24,9 @@ describe('Socket Session', () => {
 
     // Start socket server at start of test suite
     beforeAll((done) => {
+        jest.spyOn(fs, 'writeFile').mockImplementation();
+        jest.spyOn(fs, 'readFile').mockImplementation();
+
         httpServer = createServer();
         io = new Server(httpServer);
         httpServer.listen(done);
@@ -39,7 +44,7 @@ describe('Socket Session', () => {
         clientSocket = connect(`http://localhost:${port}`);
         io.on('connection', (socket) => {
             serverSocket = socket;
-            session = new Session(io, socket);
+            session = new Session(new EventReminderService(), socket);
         });
         clientSocket.on('connect', done);
     });
