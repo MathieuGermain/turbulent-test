@@ -51,6 +51,11 @@ export class EventReminderApplication {
         // Handle process exit
         process.on('SIGINT', async () => await this.handleProcessExit());
 
+        // Wait for event reminder to trigger and emit to everyone
+        this.eventReminderService.on('onEventReminderTriggered', (event, index) =>
+            this.socketServer.emit('EventReminderTriggered', event, index),
+        );
+
         // Create socket session on connection
         this.socketServer.on('connection', (socket) => new Session(this.socketServer, socket));
     }
