@@ -49,7 +49,7 @@ export class EventReminderApplication {
         this.eventReminderService = new EventReminderService();
 
         // Handle process exit
-        process.on('SIGINT', async () => await this.handleProcessExit());
+        process.on('SIGINT', () => console.log('Application is closing...'));
 
         // Wait for event reminder to trigger and emit to everyone
         this.eventReminderService.on('onEventReminderTriggered', (event, index) =>
@@ -86,9 +86,5 @@ export class EventReminderApplication {
     public stop() {
         this.socketServer.close();
         this.httpServer.close();
-    }
-
-    private async handleProcessExit() {
-        console.log('Application is closing...');
     }
 }
