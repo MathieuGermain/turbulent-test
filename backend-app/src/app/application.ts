@@ -57,7 +57,7 @@ export class EventReminderApplication {
         );
 
         // Create socket session on connection
-        this.socketServer.on('connection', (socket) => new Session(this.socketServer, socket));
+        this.socketServer.on('connection', (socket) => new Session(this.eventReminderService, socket));
     }
 
     /**
