@@ -1,0 +1,22 @@
+{
+    "verbose": true,
+    "silent": true,
+    "forceExit": true,
+    "detectOpenHandles": false,
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "./src/**",
+      "!./src/index.ts"
+    ],
+    "coverageReporters": [
+      "json-summary", "html"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "lines": 80
+      }
+    },
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    }
+}

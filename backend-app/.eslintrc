@@ -9,6 +9,7 @@
     "prettier"
   ],
   "rules": {
+    "@typescript-eslint/no-empty-function": "warn",
     "prettier/prettier": "warn"
   },
   "root": true
