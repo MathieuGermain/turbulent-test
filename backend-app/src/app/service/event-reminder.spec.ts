@@ -16,7 +16,7 @@ describe('Event Reminder Service', () => {
             triggerTime: Date.now(),
         };
 
-        service = new EventReminderService();
+        service = new EventReminderService('test');
         service.PauseProcess = true;
     });
 
@@ -26,7 +26,7 @@ describe('Event Reminder Service', () => {
 
     test('Load() should return an array of IEventReminder', async () => {
         jest.spyOn(fs, 'readFile').mockImplementationOnce(async () => JSON.stringify([mockEvent]));
-        const events = await EventReminderService.Load();
+        const events = await EventReminderService.Load('test');
         expect(events).toStrictEqual([mockEvent]);
     });
 
@@ -34,7 +34,7 @@ describe('Event Reminder Service', () => {
         jest.spyOn(fs, 'readFile').mockImplementationOnce(async () => {
             throw 'file doesnt exist';
         });
-        const events = await EventReminderService.Load();
+        const events = await EventReminderService.Load('test');
         expect(events).toStrictEqual([]);
     });
 

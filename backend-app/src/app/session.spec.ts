@@ -44,7 +44,7 @@ describe('Socket Session', () => {
         clientSocket = connect(`http://localhost:${port}`);
         io.on('connection', (socket) => {
             serverSocket = socket;
-            session = new Session(new EventReminderService(), socket);
+            session = new Session(new EventReminderService('test'), socket);
         });
         clientSocket.on('connect', done);
     });

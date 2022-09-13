@@ -1,7 +1,7 @@
 import EventEmitter from 'events';
-import { readFile, writeFile } from 'fs/promises';
+import { mkdir, readFile, writeFile } from 'fs/promises';
 import { homedir } from 'os';
-import { join } from 'path';
+import { basename, dirname, join } from 'path';
 
 /**
  * Event Reminder Interface
@@ -36,13 +36,20 @@ export class EventReminderService extends EventEmitter {
     // Store check process handle
     private processHandle?: NodeJS.Timeout;
 
-    constructor() {
+    public get ServiceId() {
+        return this.serviceId;
+    }
+    private serviceId: string;
+
+    constructor(id: string) {
         super();
+
+        this.serviceId = id;
 
         this.pauseProcess = false;
 
         // First load then start the process
-        EventReminderService.Load().then((events: IEventReminder[]) => {
+        EventReminderService.Load(this.serviceId).then((events: IEventReminder[]) => {
             this.events = events;
             this.process();
         });
@@ -51,9 +58,9 @@ export class EventReminderService extends EventEmitter {
     /**
      * Load stored events from a file
      */
-    public static async Load() {
+    public static async Load(serviceId: string) {
         try {
-            const data = await readFile(join(homedir(), 'EventReminders.store'), 'utf-8');
+            const data = await readFile(join(homedir(), 'EventReminders', basename(serviceId, '.store')), 'utf-8');
             const events = JSON.parse(data) as IEventReminder[];
             if (Array.isArray(events)) return events;
         } catch (_) {
@@ -66,7 +73,9 @@ export class EventReminderService extends EventEmitter {
      * Save loaded events into a file
      */
     public async save() {
-        await writeFile(join(homedir(), 'EventReminders.store'), JSON.stringify(this.events, null, 4), {
+        const storePath = join(homedir(), 'EventReminders', basename(this.serviceId, '.store'));
+        await mkdir(dirname(storePath), { recursive: true });
+        await writeFile(storePath, JSON.stringify(this.events, null, 4), {
             encoding: 'utf-8',
         });
         this.emit('onEventReminderSaved');

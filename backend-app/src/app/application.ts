@@ -43,10 +43,14 @@ export class EventReminderApplication {
     }
     private eventReminderService: EventReminderService;
 
-    constructor() {
+    /**
+     * Construct the application
+     * @param id pass a unique ID for the service
+     */
+    constructor(id: string) {
         this.httpServer = createServer();
         this.socketServer = new SocketServer(this.httpServer);
-        this.eventReminderService = new EventReminderService();
+        this.eventReminderService = new EventReminderService(id);
 
         // Handle process exit
         process.on('SIGINT', () => console.log('Application is closing...'));

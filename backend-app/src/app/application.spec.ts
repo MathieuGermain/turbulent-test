@@ -11,7 +11,7 @@ describe('Event Reminder Application', () => {
         jest.spyOn(fs, 'writeFile').mockImplementation();
         jest.spyOn(fs, 'readFile').mockImplementation();
 
-        app = new EventReminderApplication();
+        app = new EventReminderApplication('test');
         app.EventReminderService.PauseProcess = true;
     });
 
@@ -33,12 +33,12 @@ describe('Event Reminder Application', () => {
     });
 
     test('calling start() twice should throw ServerAlreadyListening error', (done) => {
-        app.start(port, 'localhost').then(() => {
+        app.start(port, 'localhost').then(() =>
             app.start(port, 'localhost').catch((error) => {
                 expect(error).toBeInstanceOf(ServerAlreadyListening);
                 done();
-            });
-        });
+            }),
+        );
     });
 
     test('start() should start the server', (done) => {
