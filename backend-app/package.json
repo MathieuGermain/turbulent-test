@@ -16,6 +16,7 @@
   "author": "MathieuGermain",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^16.0.2",
     "socket.io": "^4.5.2"
   },
   "devDependencies": {
