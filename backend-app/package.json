@@ -6,15 +6,18 @@
   "main": "dist/index.js",
   "scripts": {
     "clean": "del-cli -f ./dist ./types",
-    "lint": "yarn run eslint --fix --ext .ts src tests --cache src tests --cache-location node_modules/.cache/",
+    "lint": "yarn run eslint --fix --ext .ts src --cache src --cache-location node_modules/.cache/",
     "start": "node ./dist/index.js",
-    "dev:build": "tsc --watch",
-    "dev:test": "jest --watch",
-    "prod:build": "yarn clean && yarn run lint && yarn run tsc",
-    "prod:test": "jest --ci --coverage"
+    "dev:build": "nodemon",
+    "dev:test": "jest --watch --coverage --verbose --silent --detectOpenHandles",
+    "prod:build": "yarn clean && yarn lint && yarn run tsc",
+    "prod:test": "jest --ci --coverage --verbose --silent"
   },
   "author": "MathieuGermain",
-  "dependencies": {},
+  "license": "MIT",
+  "dependencies": {
+    "socket.io": "^4.5.2"
+  },
   "devDependencies": {
     "@types/jest": "^29.0.1",
     "@types/node": "^18.7.16",
@@ -24,15 +27,22 @@
     "eslint": "^8.23.0",
     "eslint-plugin-prettier": "^4.2.1",
     "jest": "^29.0.3",
+    "nodemon": "^2.0.19",
     "prettier": "2.7.1",
+    "socket.io-client": "^4.5.2",
     "ts-jest": "^29.0.0",
     "ts-node": "^10.9.1",
     "typescript": "^4.8.3"
   },
   "jest": {
+    "verbose": true,
     "collectCoverage": true,
-    "collectCoverageFrom": ["./src/**"],
-    "coverageReporters": ["json-summary"],
+    "collectCoverageFrom": [
+      "./src/**"
+    ],
+    "coverageReporters": [
+      "json-summary", "html"
+    ],
     "coverageThreshold": {
       "global": {
         "lines": 80
