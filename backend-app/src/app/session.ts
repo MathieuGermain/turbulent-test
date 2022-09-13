@@ -21,7 +21,7 @@ export class Session {
         });
 
         // Send all active event reminder on session start
-        this.socket.emit('Events', () => this.service.Events);
+        this.socket.emit('Events', this.service.Events);
 
         // Receive client AddEventReminder command
         this.socket.on('AddEventReminder', (event: IEventReminder) => this.service.addEvent(event));
