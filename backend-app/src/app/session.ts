@@ -19,6 +19,9 @@ export class Session {
             console.log('A client has disconnected!');
             this.socket = undefined;
         });
+
+        // Send all active event reminder on session start
+        this.socket.emit('Events', () => this.service.Events);
     }
 
     /**
