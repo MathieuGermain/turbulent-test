@@ -86,4 +86,13 @@ describe('Event Reminder Application', () => {
             });
         });
     });
+
+    test('on signal SIGINT to call stop()', () => {
+        const spy = jest.spyOn(app, 'stop');
+
+        process.emit('SIGINT');
+        expect(spy).toHaveBeenCalled();
+
+        spy.mockRestore();
+    });
 });
