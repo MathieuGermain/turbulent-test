@@ -75,14 +75,12 @@ export class EventReminderApplication {
      * @param host the address to listen to
      * @return async return the port
      */
-    public start(port = -1, host = 'localhost') {
+    public start(port = 0, host = 'localhost') {
         return new Promise<number>((resolve) => {
             if (this.httpServer.listening) throw new ServerAlreadyListening();
 
-            // if -1 get the port assigned by httpServer
-            if (port == -1) port = (this.httpServer.address() as AddressInfo).port;
-
             this.httpServer.listen(port, host, () => {
+                port = (this.httpServer.address() as AddressInfo).port;
                 console.log(`Application running at http://${host}:${port}`);
                 resolve(port);
             });
