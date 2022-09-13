@@ -31,12 +31,13 @@ describe('Event Reminder Application', () => {
     });
 
     test('calling start() twice should throw ServerAlreadyListening error', (done) => {
-        app.start().then((port) =>
+        app.start().then((port) => {
+            app.EventReminderService.PauseProcess = true;
             app.start(port).catch((error) => {
                 expect(error).toBeInstanceOf(ServerAlreadyListening);
                 done();
-            }),
-        );
+            });
+        });
     });
 
     test('start() should start the server', (done) => {
