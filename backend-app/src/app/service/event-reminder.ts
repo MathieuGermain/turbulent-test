@@ -46,9 +46,6 @@ export class EventReminderService extends EventEmitter {
         super();
 
         this.serviceId = id;
-
-        // Load stored events
-        EventReminderService.Load(this.serviceId).then((events?: IEventReminder[]) => (this.events = events || []));
     }
 
     /**
@@ -113,9 +110,13 @@ export class EventReminderService extends EventEmitter {
      */
     public start() {
         if (!this.Started) {
-            this.process();
-            console.log(`Service '${this.serviceId}' has started!`);
-            this.emit('onServiceStarted');
+            // Load stored events
+            EventReminderService.Load(this.serviceId).then((events?: IEventReminder[]) => {
+                this.events = events || [];
+                this.process();
+                console.log(`Service '${this.serviceId}' has started!`);
+                this.emit('onServiceStarted');
+            });
         }
     }
 
