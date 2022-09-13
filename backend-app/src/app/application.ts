@@ -56,6 +56,11 @@ export class EventReminderApplication {
             this.socketServer.emit('EventReminderTriggered', event, index),
         );
 
+        // Wait for new event reminder to be added and emit it to everyone
+        this.eventReminderService.on('onEventReminderAdded', (event, index) =>
+            this.socketServer.emit('EventReminderAdded', event, index),
+        );
+
         // Create socket session on connection
         this.socketServer.on('connection', (socket) => new Session(this.eventReminderService, socket));
     }
