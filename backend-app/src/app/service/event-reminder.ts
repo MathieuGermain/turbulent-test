@@ -89,7 +89,7 @@ export class EventReminderService extends EventEmitter {
     public removeEvent(index: number) {
         if (this.events[index]) {
             const event = this.events[index];
-            this.events.slice(index, 1);
+            this.events.splice(index, 1);
             this.emit('onEventReminderRemoved', event, index);
         }
     }
