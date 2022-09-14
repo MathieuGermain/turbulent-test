@@ -119,7 +119,7 @@ export class EventReminderService implements IEventReminderService {
    * @returns true if it was sent
    */
   public AddEventReminder(event: IEventReminder) {
-    if (this.socket.ioSocket.connected) return false;
+    if (!this.socket.ioSocket.connected) return false;
     this.socket.emit('AddEventReminder', event);
     return true;
   }
