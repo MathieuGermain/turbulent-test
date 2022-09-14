@@ -102,9 +102,9 @@ describe('Event Reminder Service', () => {
     });
 
     test('expect process() to triggerEvent', async () => {
-        const spy = jest.spyOn(service, 'triggerEvent');
-
         service.addEvent(mockEvent);
+
+        const spy = jest.spyOn(service, 'triggerEvent');
         await service.process();
         expect(spy).toHaveBeenCalledTimes(1);
 
@@ -121,9 +121,9 @@ describe('Event Reminder Service', () => {
     });
 
     test('expect process() to call save()', async () => {
-        const spy = jest.spyOn(service, 'save');
-
         service.addEvent(mockEvent);
+
+        const spy = jest.spyOn(service, 'save');
         await service.process();
         expect(spy).toHaveBeenCalledTimes(1);
 
