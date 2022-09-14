@@ -31,4 +31,4 @@ jobs:
           cache: 'yarn'
           cache-dependency-path: 'frontend-app/yarn.lock'
       - run: yarn install --frozen-lockfile
-      - run: yarn run prod:test
+      - run: yarn test -- --watch=false --browsers=ChromeHeadless
