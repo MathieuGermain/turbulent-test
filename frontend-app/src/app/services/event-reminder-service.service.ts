@@ -64,12 +64,18 @@ export class EventReminderService implements IEventReminderService {
   public onEventReminderAdded = new Subject<IEventReminder>();
 
   constructor(private socket: Socket) {
-    socket.on('connect', () => {
+    this.initializeSocket();
+  }
+
+  private initializeSocket() {
+    this.socket.removeAllListeners();
+
+    this.socket.on('connect', () => {
       console.log('Connection to the backend successful!');
       this.onConnectionChanged.next(true);
 
       // Receive all event reminders
-      socket.on('Events', (events: IEventReminder[]) => {
+      this.socket.on('Events', (events: IEventReminder[]) => {
         console.log('Received events', events);
         this.events = events;
         this.events = [];
@@ -77,22 +83,24 @@ export class EventReminderService implements IEventReminderService {
       });
 
       // Receive event reminder has triggered
-      socket.on('EventReminderTriggered', (event: IEventReminder) => {
-        console.log('An event triggered', event);
+      this.socket.on('EventReminderTriggered', (event: IEventReminder, index: number) => {
+        console.log('An event triggered', event, index);
+        this.events.splice(index);
         this.onEventReminderTriggered.next(event);
       });
 
       // Receive event reminder has been added
-      socket.on('EventReminderAdded', (event: IEventReminder) => {
+      this.socket.on('EventReminderAdded', (event: IEventReminder) => {
         console.log('An event has been added', event);
         this.events.push(event);
         this.onEventReminderAdded.next(event);
       });
 
       // Handle disconnection
-      socket.on('disconnect', () => {
+      this.socket.on('disconnect', () => {
         console.log('Connection to the backend lost...');
         this.onConnectionChanged.next(false);
+        this.initializeSocket();
       });
     });
   }
