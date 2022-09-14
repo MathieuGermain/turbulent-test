@@ -25,7 +25,6 @@ import { HomeComponent } from './pages/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { EventListComponent } from './components/event-list/event-list.component';
 import { EventItemComponent } from './components/event-item/event-item.component';
-import { CustomButtonComponent } from './components/custom-button/custom-button.component';
 import { AddeventOverlayComponent } from './components/addevent-overlay/addevent-overlay.component';
 
 // Directives
@@ -55,7 +54,6 @@ const config: SocketIoConfig = {
     NavbarComponent,
     EventListComponent,
     EventItemComponent,
-    CustomButtonComponent,
     InViewDirective,
     OrderByPipe,
     AddeventOverlayComponent
