@@ -1,0 +1,36 @@
+<div class="overlay" [ngClass]="{'active': opened}">
+    <div class="overlay-background" (click)="close()"></div>
+
+    <div class="popup">
+        <h1>Add Event Reminder</h1>
+
+        <div class="row">
+            <mat-form-field appearance="fill">
+                <mat-label>Title</mat-label>
+                <input matInput [(ngModel)]="title" [minlength]="1" [maxlength]="50" autocomplete="off">
+                <mat-hint align="end">{{title ? title.length : 0}} / 50</mat-hint>
+            </mat-form-field>
+        </div>
+
+        <div class="row">
+            <mat-form-field appearance="fill">
+                <mat-label>Message</mat-label>
+                <textarea matInput [(ngModel)]="message" [minlength]="1" [maxlength]="250" autocomplete="off"></textarea>
+                <mat-hint align="end">{{message ? message.length : 0}} / 250</mat-hint>
+            </mat-form-field>
+        </div>
+
+        <div class="row">
+            <mat-form-field>
+                <input matInput [ngxMatDatetimePicker]="picker" [formControl]="selectedDate" [min]="minDate" [readonly]="true">
+                <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
+                <ngx-mat-datetime-picker #picker [showSeconds]="true"></ngx-mat-datetime-picker>
+            </mat-form-field>
+        </div>
+
+        <div class="row">
+            <button mat-button class="block" [disabled]="!isValid()" (click)="create()">Create</button>
+        </div>
+                
+    </div>
+</div>
