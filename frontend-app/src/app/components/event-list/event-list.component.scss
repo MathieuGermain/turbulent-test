@@ -1,0 +1,27 @@
+:host {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    flex-direction: row;
+    padding: 20px 0;
+
+    > event-item {
+        margin-bottom: 10px;
+    }
+
+    .top-section {
+        width: 100%;
+        padding-bottom: 40px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        p {
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+        }
+    }
+}

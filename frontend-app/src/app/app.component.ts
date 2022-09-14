@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { EventReminderService } from './services/event-reminder-service.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Event Reminder';
+  constructor(service: EventReminderService) {
+    service.Connect();
+  }
 }

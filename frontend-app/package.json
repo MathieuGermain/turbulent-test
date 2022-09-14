@@ -5,21 +5,24 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "dev:build": "ng build --watch --configuration development",
-    "dev:test": "ng test",
-    "prod:build": "ng build",
-    "prod:test": "ng test --browsers=ChromeHeadless --watch=false --code-coverage" 
+    "build": "ng build --watch --configuration development",
+    "test": "ng test",
+    "prod:build": "ng build"
   },
   "private": true,
   "dependencies": {
+    "@angular-material-components/datetime-picker": "^8.0.0",
     "@angular/animations": "^14.0.0",
+    "@angular/cdk": "14.2.1",
     "@angular/common": "^14.0.0",
     "@angular/compiler": "^14.0.0",
     "@angular/core": "^14.0.0",
     "@angular/forms": "^14.0.0",
+    "@angular/material": "14.2.1",
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
+    "ngx-socket-io": "^4.3.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

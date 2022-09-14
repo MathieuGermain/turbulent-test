@@ -1,0 +1,17 @@
+<addevent-overlay [opened]="overlayOpened" (closed)="overlayOpened = false"></addevent-overlay>
+
+<div class="container">
+    
+    <div class="header">
+        <h1>Events <span class="alt-color">/</span> Schedule</h1>
+
+        <button mat-button (click)="overlayOpened = true">Add Event</button>
+    </div>
+
+    <div class="separator"></div>
+
+    <event-list [events]="events"></event-list>
+
+    <p class="footer-notice">Copyright &copy; Mathieu Germain 2022</p>
+
+</div>

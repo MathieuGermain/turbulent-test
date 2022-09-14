@@ -1,0 +1,7 @@
+<div class="top-section" *ngIf="events.length == 0">
+    <p>There is no event reminder at the moment...</p>
+</div>
+
+<ng-container *ngFor="let event of events | orderBy:'triggerTime':'asc'">
+    <event-item [event]="event"></event-item>
+</ng-container>
