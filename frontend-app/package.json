@@ -5,8 +5,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "dev:build": "ng build --watch --configuration development",
-    "dev:test": "ng test",
+    "build": "ng build --watch --configuration development",
+    "test": "ng test",
     "prod:build": "ng build"
   },
   "private": true,
