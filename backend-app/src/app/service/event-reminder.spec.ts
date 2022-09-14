@@ -50,6 +50,7 @@ describe('Event Reminder Service', () => {
     test('addEvent() should emit onEventReminderSaved with added event as param', (done) => {
         service.once('onEventReminderAdded', (event) => {
             expect(event).toStrictEqual(mockEvent);
+            expect(service.Events.length).toBe(1);
             done();
         });
         service.addEvent(mockEvent);
@@ -58,6 +59,7 @@ describe('Event Reminder Service', () => {
     test('removeEvent() should emit onEventReminderRemoved with removed event as param', (done) => {
         service.once('onEventReminderRemoved', (event) => {
             expect(event).toStrictEqual(mockEvent);
+            expect(service.Events.length).toBe(0);
             done();
         });
         service.addEvent(mockEvent);
@@ -67,6 +69,7 @@ describe('Event Reminder Service', () => {
     test('triggerEvent() should emit onEventReminderTriggered with triggered event as param', (done) => {
         service.once('onEventReminderTriggered', (event) => {
             expect(event).toStrictEqual(mockEvent);
+            expect(service.Events.length).toBe(0);
             done();
         });
         service.addEvent(mockEvent);
