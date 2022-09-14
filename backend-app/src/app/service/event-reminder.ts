@@ -79,7 +79,7 @@ export class EventReminderService extends EventEmitter {
      */
     public addEvent(event: IEventReminder) {
         const index = this.events.push(event);
-        this.emit('onEventReminderAdded', event, index);
+        this.save().then(() => this.emit('onEventReminderAdded', event, index));
     }
 
     /**
