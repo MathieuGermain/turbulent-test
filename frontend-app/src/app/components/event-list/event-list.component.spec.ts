@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { OrderByPipe } from 'src/app/pipes/order-by.pipe';
 
 import { EventListComponent } from './event-list.component';
 
@@ -8,12 +9,16 @@ describe('EventListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EventListComponent ]
+      declarations: [
+        OrderByPipe,
+        EventListComponent
+      ]
     })
     .compileComponents();
 
     fixture = TestBed.createComponent(EventListComponent);
     component = fixture.componentInstance;
+    component.events = [];
     fixture.detectChanges();
   });
 

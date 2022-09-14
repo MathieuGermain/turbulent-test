@@ -10,4 +10,18 @@
     > event-item {
         margin-bottom: 10px;
     }
+
+    .top-section {
+        width: 100%;
+        padding-bottom: 40px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        p {
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+        }
+    }
 }

@@ -20,7 +20,6 @@ export class EventItemComponent implements OnInit, OnDestroy {
   @Input() event!: IEventReminder;
 
   private update!: Subscription;
-  private updateTick = 333.333;
   
   public visibility = false;
   public timeLeft!: string;
@@ -29,23 +28,26 @@ export class EventItemComponent implements OnInit, OnDestroy {
 
   private updateTimeLeft() {
     const value = (this.event.triggerTime - Date.now()) / 1000;
-    const hours: number = Math.floor(value / 3600);
-    const minutes: number = Math.floor((value % 3600) / 60);
-    this.timeLeft = ('00' + hours).slice(-2) + ':' + ('00' + minutes).slice(-2) + ':' + ('00' + Math.floor(value - minutes * 60)).slice(-2);
+    if (value >= 0) {
+      const hours: number = Math.floor(value / 3600);
+      const minutes: number = Math.floor((value % 3600) / 60);
+      this.timeLeft = ('00' + hours).slice(-2) + ':' + ('00' + minutes).slice(-2) + ':' + ('00' + Math.floor(value - minutes * 60)).slice(-2);
+    }
+    else this.timeLeft = "00:00:00";
   }
 
   visibilityChanged(visibility: boolean) {
-    this.visibility = visibility;
+    if (visibility)
+      this.visibility = visibility;
   }
 
   ngOnInit(): void {
     this.updateTimeLeft();
-    this.update = interval(this.updateTick).subscribe(() => this.updateTimeLeft());
+    this.update = interval(333.333).subscribe(() => this.updateTimeLeft());
   }
 
   ngOnDestroy(): void {
     this.update?.unsubscribe();
-  } 
-
+  }
 }
 
