@@ -1,6 +1,6 @@
 import { homedir } from 'os';
 import EventEmitter from 'events';
-import { basename, dirname, join } from 'path';
+import { dirname, join } from 'path';
 import { mkdir, readFile, writeFile } from 'fs/promises';
 
 /**
@@ -53,7 +53,7 @@ export class EventReminderService extends EventEmitter {
      */
     public static async Load(serviceId: string) {
         try {
-            const data = await readFile(join(homedir(), 'EventReminders', basename(serviceId, '.store')), 'utf-8');
+            const data = await readFile(join(homedir(), 'EventReminders', serviceId + '.json'), 'utf-8');
             const events = JSON.parse(data) as IEventReminder[];
             if (Array.isArray(events)) return events;
         } catch (_) {
@@ -65,7 +65,7 @@ export class EventReminderService extends EventEmitter {
      * Save loaded events into a file
      */
     public async save() {
-        const storePath = join(homedir(), 'EventReminders', basename(this.serviceId, '.store'));
+        const storePath = join(homedir(), 'EventReminders', this.serviceId + '.json');
         await mkdir(dirname(storePath), { recursive: true });
         await writeFile(storePath, JSON.stringify(this.events, null, 4), {
             encoding: 'utf-8',
@@ -79,7 +79,7 @@ export class EventReminderService extends EventEmitter {
      */
     public addEvent(event: IEventReminder) {
         const index = this.events.push(event);
-        this.emit('onEventReminderAdded', event, index);
+        this.save().then(() => this.emit('onEventReminderAdded', event, index));
     }
 
     /**
@@ -89,7 +89,7 @@ export class EventReminderService extends EventEmitter {
     public removeEvent(index: number) {
         if (this.events[index]) {
             const event = this.events[index];
-            this.events.slice(index, 1);
+            this.events.splice(index, 1);
             this.emit('onEventReminderRemoved', event, index);
         }
     }
@@ -100,8 +100,9 @@ export class EventReminderService extends EventEmitter {
      */
     public triggerEvent(index: number) {
         if (this.events[index]) {
-            this.emit('onEventReminderTriggered', this.events[index], index);
+            const event = this.events[index];
             this.removeEvent(index);
+            this.emit('onEventReminderTriggered', event, index);
         }
     }
 
