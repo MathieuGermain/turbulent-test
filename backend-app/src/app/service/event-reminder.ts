@@ -100,8 +100,9 @@ export class EventReminderService extends EventEmitter {
      */
     public triggerEvent(index: number) {
         if (this.events[index]) {
-            this.emit('onEventReminderTriggered', this.events[index], index);
+            const event = this.events[index];
             this.removeEvent(index);
+            this.emit('onEventReminderTriggered', event, index);
         }
     }
 
