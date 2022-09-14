@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 import { EventReminderService, EventReminderServiceMock } from './services/event-reminder-service.service';
 
 describe('AppComponent', () => {
@@ -13,7 +14,8 @@ describe('AppComponent', () => {
         { provide: EventReminderService, useValue: new EventReminderServiceMock() }
       ],
       declarations: [
-        AppComponent
+        AppComponent,
+        NavbarComponent
       ],
     }).compileComponents();
   });
