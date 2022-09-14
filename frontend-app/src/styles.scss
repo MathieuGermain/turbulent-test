@@ -1,1 +1,34 @@
-/* You can add global styles to this file, and also import other style files */
+@import './styles/reset';
+@import './styles/vars';
+@import './styles/mixins';
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #c8c8c8;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #031529;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    font-family: $main-font;
+    background-size: cover;
+    background-position: center;
+    background-color: $page-background;
+    background-image: url(./assets/background-image.jpg);
+}
+
+.alt-color {
+    color: $alt-color;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 700;
+}
