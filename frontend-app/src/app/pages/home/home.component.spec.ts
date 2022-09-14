@@ -1,4 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AddeventOverlayComponent } from 'src/app/components/addevent-overlay/addevent-overlay.component';
+import { CustomButtonComponent } from 'src/app/components/custom-button/custom-button.component';
+import { EventListComponent } from 'src/app/components/event-list/event-list.component';
+import { OrderByPipe } from 'src/app/pipes/order-by.pipe';
 import { EventReminderService, EventReminderServiceMock } from '../../services/event-reminder-service.service';
 
 import { HomeComponent } from './home.component';
@@ -12,7 +16,13 @@ describe('HomeComponent', () => {
       providers: [
         { provide: EventReminderService, useValue: new EventReminderServiceMock() }
       ],
-      declarations: [ HomeComponent ],
+      declarations: [
+        HomeComponent,
+        AddeventOverlayComponent,
+        EventListComponent,
+        CustomButtonComponent,
+        OrderByPipe
+      ],
     })
     .compileComponents();
 

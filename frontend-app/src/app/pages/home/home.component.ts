@@ -8,6 +8,8 @@ import { EventReminderService } from 'src/app/services/event-reminder-service.se
 })
 export class HomeComponent implements OnInit {
 
+  overlayOpened!: boolean
+
   constructor(private eventReminder: EventReminderService) { }
 
   public get events() {
