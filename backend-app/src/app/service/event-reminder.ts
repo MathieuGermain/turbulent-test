@@ -53,7 +53,7 @@ export class EventReminderService extends EventEmitter {
      */
     public static async Load(serviceId: string) {
         try {
-            const data = await readFile(join(homedir(), 'EventReminders', basename(serviceId, '.store')), 'utf-8');
+            const data = await readFile(join(homedir(), 'EventReminders', serviceId + '.json'), 'utf-8');
             const events = JSON.parse(data) as IEventReminder[];
             if (Array.isArray(events)) return events;
         } catch (_) {
@@ -65,7 +65,7 @@ export class EventReminderService extends EventEmitter {
      * Save loaded events into a file
      */
     public async save() {
-        const storePath = join(homedir(), 'EventReminders', basename(this.serviceId, '.store'));
+        const storePath = join(homedir(), 'EventReminders', this.serviceId + '.json');
         await mkdir(dirname(storePath), { recursive: true });
         await writeFile(storePath, JSON.stringify(this.events, null, 4), {
             encoding: 'utf-8',
