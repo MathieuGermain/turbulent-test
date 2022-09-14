@@ -8,7 +8,7 @@
     "dev:build": "ng build --watch --configuration development",
     "dev:test": "ng test",
     "prod:build": "ng build",
-    "prod:test": "ng test --browsers=ChromeHeadless --watch=false --code-coverage" 
+    "prod:test": "ng test --browsers=ChromeHeadless --watch=false --code-coverage"
   },
   "private": true,
   "dependencies": {
@@ -20,6 +20,7 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
+    "ngx-socket-io": "^4.3.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
