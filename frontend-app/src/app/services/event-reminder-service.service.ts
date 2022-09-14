@@ -72,28 +72,7 @@ export class EventReminderService implements IEventReminderService {
       socket.on('Events', (events: IEventReminder[]) => {
         console.log('Received events', events);
         this.events = events;
-        this.events = [
-          { title: `Brew coffee`, message: `Time to wake up and start brewing!`, triggerTime: Date.now() + 10000 },
-          { title: `Start computer`, message: `Time to wake up and start brewing!`, triggerTime: Date.now() + 20000 },
-          { title: `Walk the dog`, message: `Time to wake up and start brewing!`, triggerTime: Date.now() + 30000 },
-          { title: `Feed the cat`, message: `Time to wake up and start brewing!`, triggerTime: Date.now() + 40000 },
-          { title: `Sit at office`, message: `Time to wake up and start brewing!`, triggerTime: Date.now() + 50000 },
-          { title: `Code`, message: `Time to wake up and start brewing!`, triggerTime: Date.now() + 60000 },
-          { title: `Code more`, message: `Time to wake up and start brewing!`, triggerTime: Date.now() + 70000 },
-          { title: `Code even more`, message: `Time to wake up and start brewing!`, triggerTime: Date.now() + 80000 },
-          { title: `Drink some coffee`, message: `Time to wake up and start brewing!`, triggerTime: Date.now() + 90000 },
-          { title: `Code again`, message: `Time to wake up and start brewing!`, triggerTime: Date.now() + 100000 },
-          { title: `Code more again`, message: `Time to wake up and start brewing!`, triggerTime: Date.now() + 110000 },
-          { title: `Stop coding`, message: `Time to wake up and start brewing!`, triggerTime: Date.now() + 120000 },
-          { title: `Pet the cats`, message: `Time to wake up and start brewing!`, triggerTime: Date.now() + 130000 },
-          { title: `Walk outside`, message: `Time to wake up and start brewing!`, triggerTime: Date.now() + 140000 },
-          { title: `Thinker about code`, message: `Time to wake up and start brewing!`, triggerTime: Date.now() + 150000 },
-          { title: `Buy some milk`, message: `Time to wake up and start brewing!`, triggerTime: Date.now() + 160000 },
-          { title: `Walk back`, message: `Time to wake up and start brewing!`, triggerTime: Date.now() + 170000 },
-          { title: `Make more coffee`, message: `Time to wake up and start brewing!`, triggerTime: Date.now() + 180000 },
-          { title: `Code`, message: `Time to wake up and start brewing!`, triggerTime: Date.now() + 190000 },
-          { title: `Code more`, message: `Time to wake up and start brewing!`, triggerTime: Date.now() + 200000 },
-        ];
+        this.events = [];
         this.onEventsReceived.next(this.events);
       });
 
