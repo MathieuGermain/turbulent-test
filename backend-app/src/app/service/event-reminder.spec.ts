@@ -50,7 +50,6 @@ describe('Event Reminder Service', () => {
     test('addEvent() should emit onEventReminderSaved with added event as param', (done) => {
         service.once('onEventReminderAdded', (event) => {
             expect(event).toStrictEqual(mockEvent);
-            expect(service.Events.length).toBe(1);
             done();
         });
         service.addEvent(mockEvent);
@@ -59,7 +58,6 @@ describe('Event Reminder Service', () => {
     test('removeEvent() should emit onEventReminderRemoved with removed event as param', (done) => {
         service.once('onEventReminderRemoved', (event) => {
             expect(event).toStrictEqual(mockEvent);
-            expect(service.Events.length).toBe(0);
             done();
         });
         service.addEvent(mockEvent);
@@ -69,7 +67,6 @@ describe('Event Reminder Service', () => {
     test('triggerEvent() should emit onEventReminderTriggered with triggered event as param', (done) => {
         service.once('onEventReminderTriggered', (event) => {
             expect(event).toStrictEqual(mockEvent);
-            expect(service.Events.length).toBe(0);
             done();
         });
         service.addEvent(mockEvent);
@@ -102,9 +99,9 @@ describe('Event Reminder Service', () => {
     });
 
     test('expect process() to triggerEvent', async () => {
-        service.addEvent(mockEvent);
-
         const spy = jest.spyOn(service, 'triggerEvent');
+
+        service.addEvent(mockEvent);
         await service.process();
         expect(spy).toHaveBeenCalledTimes(1);
 
@@ -121,9 +118,9 @@ describe('Event Reminder Service', () => {
     });
 
     test('expect process() to call save()', async () => {
-        service.addEvent(mockEvent);
-
         const spy = jest.spyOn(service, 'save');
+
+        service.addEvent(mockEvent);
         await service.process();
         expect(spy).toHaveBeenCalledTimes(1);
 
