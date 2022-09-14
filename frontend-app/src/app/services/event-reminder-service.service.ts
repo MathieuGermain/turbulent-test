@@ -17,7 +17,7 @@ export interface IEventReminder {
 export interface IEventReminderService {
   get Events(): IEventReminder[]
   onConnectionChanged: BehaviorSubject<boolean>
-  onEventsReceived: Subject<IEventReminder[]>
+  onEventUpdate: Subject<IEventReminder[]>
   onEventReminderTriggered: Subject<IEventReminder>
   onEventReminderAdded: Subject<IEventReminder>
   Connect(): void
@@ -49,9 +49,9 @@ export class EventReminderService implements IEventReminderService {
   public onConnectionChanged = new BehaviorSubject(false);
 
   /**
-   * Observe receiving all events.
+   * Observe events updates.
    */
-  public onEventsReceived = new Subject<IEventReminder[]>();
+  public onEventUpdate = new BehaviorSubject<IEventReminder[]>([]);
 
   /**
    * Observe event reminder triggered.
@@ -78,14 +78,14 @@ export class EventReminderService implements IEventReminderService {
       this.socket.on('Events', (events: IEventReminder[]) => {
         console.log('Received events', events);
         this.events = events;
-        this.events = [];
-        this.onEventsReceived.next(this.events);
+        this.onEventUpdate.next(this.events);
       });
 
       // Receive event reminder has triggered
       this.socket.on('EventReminderTriggered', (event: IEventReminder, index: number) => {
         console.log('An event triggered', event, index);
         this.events.splice(index);
+        this.onEventUpdate.next(this.events);
         this.onEventReminderTriggered.next(event);
       });
 
@@ -93,6 +93,7 @@ export class EventReminderService implements IEventReminderService {
       this.socket.on('EventReminderAdded', (event: IEventReminder) => {
         console.log('An event has been added', event);
         this.events.push(event);
+        this.onEventUpdate.next(this.events);
         this.onEventReminderAdded.next(event);
       });
 
@@ -147,34 +148,4 @@ export class EventReminderService implements IEventReminderService {
     };
   }
 
-}
-
-/**
- * Mock Event Reminder Service Class
- */
-export class EventReminderServiceMock implements IEventReminderService {
-  get Events(): IEventReminder[] {
-    return [];
-  }
-
-  onConnectionChanged: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  onEventsReceived: Subject<IEventReminder[]> = new Subject();
-  onEventReminderTriggered: Subject<IEventReminder> = new Subject();
-  onEventReminderAdded: Subject<IEventReminder> = new Subject();
-
-  Connect(): void { }
-
-  Disconnect(): void { }
-
-  AddEventReminder(event: IEventReminder): boolean { 
-    return true;
-  }
-
-  CreateEventReminder(title: string, message: string, date: Date): IEventReminder {
-    return {
-      title: 'test',
-      message: 'test message',
-      triggerTime: 0
-    }
-  }
 }
