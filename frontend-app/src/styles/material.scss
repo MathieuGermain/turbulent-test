@@ -1,0 +1,45 @@
+@import './vars';
+
+.mat-h1, .mat-headline, .mat-typography .mat-h1, .mat-typography .mat-headline, .mat-typography h1 {
+    margin: 0;
+}
+
+.mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
+    user-select: none;
+    background-color: #000;
+}
+
+.mat-step-text-label {
+    user-select: none;
+}
+
+.mat-stepper-horizontal, .mat-stepper-vertical {
+    background-color: transparent;
+}
+
+.mat-horizontal-stepper-header-container {
+    margin-bottom: 20px;
+}
+
+.mat-horizontal-content-container {
+    padding: 0 !important;
+}
+
+[mat-button] {
+    border: 0;
+    padding: 10px 25px;
+    font-size: 14px;
+    line-height: 1;
+    border-radius: 5px;
+    background-color: #e5e5e5;
+    transition: 0.2s ease-in-out;
+
+    &:not([disabled]):hover {
+        cursor: pointer;
+        background-color: $alt-color;
+    }
+
+    &.block {
+        width: 100%;
+    }
+}
