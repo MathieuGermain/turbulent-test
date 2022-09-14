@@ -1,0 +1,113 @@
+@import '../../../styles/vars';
+
+:host {
+    width: 100%;
+    display: flex;
+
+    .wrapper {
+        width: 100%;
+        height: auto;
+        padding: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #fff;
+        border-radius: 15px;
+        box-shadow: $box-shadow-transparent;
+        transition: 0.2s ease-in-out;
+    }
+    
+
+    .horizontal-group {
+        margin: 0 auto 10px;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .image {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 10px;
+        border-radius: 40px;
+        background-size: cover;
+        background-position: center;
+        background-color: #f1f1f1;
+        box-shadow: $box-shadow;
+        position: relative;
+
+        .letter {
+            top: 48%;
+            left: 56%;
+            color: #b3b3b3;
+            font-size: 100%;
+            position: absolute;
+            user-select: none;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    .title {
+        width: 100%;
+        color: #000;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .time-left {
+        width: 100%;
+        font-size: 24px;
+        font-weight: bold;
+        line-height: 1.4;
+        color: #9a9a9a;
+        text-align: center;
+        
+        span {
+            display: block;
+
+            &:nth-child(2) {
+                font-size: 12px;
+                line-height: 1.4;
+            }
+        };
+    }
+
+    &:hover {
+        box-shadow: $box-shadow;
+    }
+
+    @media screen and (min-width: 728px) {
+        .wrapper {
+            width: 100%;
+            flex-direction: none;
+        }
+
+        .horizontal-group {
+            margin: 0;
+            flex-wrap: unset;
+            flex-direction: unset;
+        }
+
+        .image {
+            width: 40px;
+            height: 40px;
+            margin: 0;
+            margin-right: 20px;
+        }
+
+        .title,
+        .time-left {
+            width: auto;
+        }
+
+        .time-left {
+            text-align: right;
+        }
+    }
+    
+}
