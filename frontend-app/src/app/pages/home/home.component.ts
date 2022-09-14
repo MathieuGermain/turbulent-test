@@ -1,23 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { EventReminderService } from 'src/app/services/event-reminder-service.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { EventReminderService, IEventReminder } from 'src/app/services/event-reminder-service.service';
 
 @Component({
   selector: 'page-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
-  overlayOpened!: boolean
+  overlayOpened: boolean = false;
+  events: IEventReminder[] = [];
+
+  private onEventsUpdateSub!: Subscription;
 
   constructor(private eventReminder: EventReminderService) { }
 
-  public get events() {
-    return this.eventReminder.Events;
+  ngOnInit(): void {
+    this.onEventsUpdateSub = this.eventReminder.onEventUpdate.subscribe((events) => this.events = events);
   }
 
-  ngOnInit(): void {
-
+  ngOnDestroy(): void {
+    this.onEventsUpdateSub?.unsubscribe();
   }
 
 }
