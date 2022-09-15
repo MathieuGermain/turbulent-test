@@ -153,3 +153,33 @@ export class EventReminderService implements IEventReminderService {
   }
 
 }
+
+export class EventReminderServiceMock implements IEventReminderService {
+  get connected(): boolean {
+    return false;
+  }
+  get events(): IEventReminder[] {
+    return [];
+  }
+  onConnectionChanged = new BehaviorSubject<boolean>(false);
+  onEventRemindersChanged = new Subject<IEventReminder[]>();
+  onEventReminderTriggered = new Subject<IEventReminder>();
+  onEventReminderAdded = new Subject<IEventReminder>();
+  connect(): void {
+    
+  }
+  disconnect(): void {
+    
+  }
+  sendNewEventReminder(event: IEventReminder): boolean {
+    return false;
+  }
+  createEventReminder(title: string, message: string, date: Date): IEventReminder {
+    return {
+      title, 
+      message, 
+      triggerTime: 0
+    }
+  }
+  
+}
