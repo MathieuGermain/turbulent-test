@@ -1,28 +1,35 @@
-import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { AppComponent } from './app.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { EventReminderService, EventReminderServiceMock } from './services/event-reminder-service.service';
+import { NO_ERRORS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { AppComponent } from "./app.component";
+import { EventReminderService, EventReminderServiceMock } from "./services/event-reminder.service";
+
+let component: AppComponent;
+let fixture: ComponentFixture<AppComponent>;
+let eventReminderService: EventReminderService
 
 describe('AppComponent', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
+
+  beforeEach((() => {
+    TestBed.configureTestingModule({
+      declarations: [AppComponent],
       providers: [
-        { provide: EventReminderService, useValue: new EventReminderServiceMock() }
+          { provide: EventReminderService, useClass: EventReminderServiceMock },
       ],
-      declarations: [
-        AppComponent,
-        NavbarComponent
-      ],
-    }).compileComponents();
+      schemas: [ NO_ERRORS_SCHEMA ]
+    })
+    .compileComponents();
+  
+    eventReminderService = TestBed.inject(EventReminderService);
+  }));
+  
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+  
+  it('should create the app', () => {
+    expect(component).toBeTruthy();
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
-});
+})

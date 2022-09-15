@@ -2,7 +2,15 @@
 
 [![CI](https://github.com/MathieuGermain/turbulent-test/actions/workflows/frontend-ci.yml/badge.svg)](https://github.com/MathieuGermain/turbulent-test/actions/workflows/frontend-ci.yml)
 
-Frontend event reminder app.
+## Event Reminder Frontend Application
+Even if it wasn't required I created this small Angular frontend to visualize and send new `EventReminder` to the backend.
+
+\* *It doesn't contain Jasmine unit tests.*
+
+<br>
+
+## Connection to backend
+By default, it is set to connect to the backend on `http://localhost:3344/`
 
 <br>
 
@@ -14,17 +22,28 @@ Make sure you have **yarn** installed globally.
 npm install --global yarn
 ```
 
-Install Dependencies
+Install dependencies
 ```bash
-yarn install
+yarn
 ```
 
-Build Project
+Serve the application in dev mode
+> Access the page from http://localhost:4200/
 ```bash
-yarn run prod:build
+yarn serve
 ```
 
-Start Frontend
+Build the application for production
 ```bash
-yarn run start
+yarn prod:build
 ```
+
+<br>
+
+# Previews
+
+## Desktop
+![Preview 1](../.github/images/front-end-preview-1.png)
+
+## Mobile
+![Preview 2](../.github/images/front-end-preview-2.png)

@@ -1,14 +1,14 @@
 import { createServer, Server as HttpServer } from 'http';
 import { AddressInfo } from 'net';
 import { Server as SocketServer } from 'socket.io';
-import { EventReminderService, IEventReminder } from './service/event-reminder';
+import { EventReminderService, IEventReminder } from './event-reminder';
 import { Session } from './session';
 
 /**
- * Thrown while trying to start the server
- * and it's is already running.
+ * ServerAlreadyListeningError class.
+ * Is thrown when trying to start the server and it's is already running.
  */
-export class ServerAlreadyListening extends Error {
+export class ServerAlreadyListeningError extends Error {
     constructor(message?: string) {
         super(message || 'The server is already listening!');
         this.name = 'ServerAlreadyListening';
@@ -16,7 +16,8 @@ export class ServerAlreadyListening extends Error {
 }
 
 /**
- * Event Reminder Application class
+ * Event Reminder Application class.
+ * Main class of the application, handles the server and service.
  */
 export class EventReminderApplication {
     /**
@@ -48,13 +49,18 @@ export class EventReminderApplication {
      * @param id pass a unique ID for the service
      */
     constructor(id: string) {
+        // Create a new http server
         this.httpServer = createServer();
+
+        // Create a socket server with http server attached
         this.socketServer = new SocketServer(this.httpServer, {
             cors: {
                 origin: '*',
                 methods: ['GET'],
             },
         });
+
+        // Create the event reminder service
         this.eventReminderService = new EventReminderService(id);
 
         // Wait for event reminder to trigger and emit to everyone
@@ -69,9 +75,6 @@ export class EventReminderApplication {
 
         // Create socket session on connection
         this.socketServer.on('connection', (socket) => new Session(this.eventReminderService, socket));
-
-        // Handle application closing
-        process.on('SIGINT', () => this.stop());
     }
 
     /**
@@ -82,7 +85,7 @@ export class EventReminderApplication {
      */
     public start(port = 0, host = 'localhost') {
         return new Promise<number>((resolve) => {
-            if (this.httpServer.listening) throw new ServerAlreadyListening();
+            if (this.httpServer.listening) throw new ServerAlreadyListeningError();
 
             this.httpServer.listen(port, host, () => {
                 port = (this.httpServer.address() as AddressInfo).port;
@@ -94,12 +97,22 @@ export class EventReminderApplication {
 
     /**
      * Stop the server.
+     * - Disconnect all clients
+     * - Close the socket server
+     * - Close the http server
      */
     public stop() {
-        return new Promise<Error | undefined>((resolve) => {
+        return new Promise<void>((resolve) => {
             console.log('Application is stopping...');
             this.eventReminderService.stop();
-            this.httpServer.close(resolve);
+            this.socketServer.disconnectSockets(true);
+            this.socketServer.close(() => {
+                console.log('socket server closed');
+                this.httpServer.close(() => {
+                    console.log('http server closed');
+                    resolve();
+                });
+            });
         });
     }
 }

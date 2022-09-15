@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { interval, Subscription } from 'rxjs';
-import { IEventReminder } from 'src/app/services/event-reminder-service.service';
+import { IEventReminder } from 'src/app/services/event-reminder.service';
 
 @Component({
   selector: 'event-item',

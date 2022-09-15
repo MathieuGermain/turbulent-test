@@ -2,34 +2,32 @@ import { NgxMatDatetimePicker } from '@angular-material-components/datetime-pick
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { interval, Subscription } from 'rxjs';
-import { EventReminderService } from 'src/app/services/event-reminder-service.service';
+import { EventReminderService } from 'src/app/services/event-reminder.service';
 
 @Component({
-  selector: 'addevent-overlay',
-  templateUrl: './addevent-overlay.component.html',
-  styleUrls: ['./addevent-overlay.component.scss']
+  selector: 'add-event-overlay',
+  templateUrl: './add-event-overlay.component.html',
+  styleUrls: ['./add-event-overlay.component.scss']
 })
-export class AddeventOverlayComponent implements OnInit, OnDestroy {
+export class AddEventOverlayComponent implements OnInit, OnDestroy {
 
-  @Input() opened!: boolean;
-  @Output() closed = new EventEmitter<void>();
+  @Input() opened: boolean = false;
+  @Output() openedChange = new EventEmitter<boolean>();
+
   @ViewChild('picker') picker!: NgxMatDatetimePicker<any>;
 
-  title!: string;
-  message!: string;
+  title: string = "";
+  message: string = "";
   selectedDate = new FormControl<Date>(new Date());
-  minDate!: Date;
+  minDate: Date = new Date();
 
   private updateMinTime!: Subscription;
 
   constructor(private service: EventReminderService) { }
 
   ngOnInit(): void {
-    this.updateMinTime = interval(100).subscribe(() => {
-      this.minDate = new Date(Date.now() + 1000);
-      if (!this.selectedDate.value || this.selectedDate.value.getTime() < Date.now()) {
-        this.selectedDate.setValue(this.minDate);
-      }
+    this.updateMinTime = interval(1000).subscribe(() => {
+      this.minDate = new Date();
     });
   }
 
@@ -44,8 +42,8 @@ export class AddeventOverlayComponent implements OnInit, OnDestroy {
   }
 
   create() {
-    const event = this.service.CreateEventReminder(this.title, this.message, this.selectedDate.value || new Date());
-    if (this.service.AddEventReminder(event)) {
+    const event = this.service.createEventReminder(this.title, this.message, this.selectedDate.value || new Date());
+    if (this.service.sendNewEventReminder(event)) {
       this.title = '';
       this.message = '';
       this.close();
@@ -53,7 +51,8 @@ export class AddeventOverlayComponent implements OnInit, OnDestroy {
   }
 
   close() {
-    this.closed.next();
+    this.opened = false;
+    this.openedChange.next(this.opened);
   }
 
 }

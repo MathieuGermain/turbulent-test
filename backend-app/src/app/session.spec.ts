@@ -4,9 +4,9 @@ import { createServer, Server as HttpServer } from 'http';
 import { Server, Socket as ServerSocket } from 'socket.io';
 import { connect, Socket as ClientSocket } from 'socket.io-client';
 import { Session } from './session';
-import { EventReminderService } from './service/event-reminder';
+import { EventReminderService } from './event-reminder';
 
-describe('Socket Session', () => {
+describe('Session', () => {
     /** socket server */
     let io: Server;
 
@@ -30,16 +30,17 @@ describe('Socket Session', () => {
 
         httpServer = createServer();
         io = new Server(httpServer);
-        httpServer.listen(done);
+        httpServer.listen(() => done()); // is causing the jest warning message
     });
 
     // Stop socket server at end of test suite
     afterAll((done) => {
-        httpServer.close(done);
+        io.disconnectSockets(true);
+        io.close(() => httpServer.close(() => done()));
     });
 
     // Connect new socket before each test.
-    // Also instanciate a new Session instance to test against.
+    // Also instanciate a new Session instance to test with.
     beforeEach((done) => {
         const port: number = (httpServer.address() as AddressInfo).port;
         clientSocket = connect(`http://localhost:${port}`);
@@ -56,24 +57,24 @@ describe('Socket Session', () => {
         clientSocket.disconnect();
     });
 
-    test(`getter 'connected' should be true`, () => {
+    test('`get connected()` should be `true`', () => {
         expect(session.connected).toBe(true);
     });
 
-    test('expect session.connected to be falsy when session.disconnect() is called', () => {
+    test('`get connected()` should be `false` when `disconnect()` is called', () => {
         session.disconnect();
-        expect(session.connected).toBeFalsy();
+        expect(session.connected).toBe(false);
     });
 
-    test('expect the client connection to be closed when session.disconnect() is called', (done) => {
+    test('`disconnect()` should disconnected client socket', (done) => {
         clientSocket.on('disconnect', () => {
-            expect(clientSocket.connected).toBeFalsy();
+            expect(clientSocket.connected).toBe(false);
             done();
         });
         session.disconnect();
     });
 
-    test('expect an event reminder to be added when session receive AddEventReminder command', (done) => {
+    it('should add a new EventReminder on event `AddEventReminder`', (done) => {
         serverSocket.on('AddEventReminder', () => {
             expect(session.Service.Events.length).toBe(1);
             done();

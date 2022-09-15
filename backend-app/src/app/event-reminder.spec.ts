@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import { EventReminderService, IEventReminder } from './event-reminder';
 
-describe('Event Reminder Service', () => {
+describe('EventReminderService', () => {
     let service: EventReminderService;
 
     const mockEvent: IEventReminder = {
@@ -20,21 +20,21 @@ describe('Event Reminder Service', () => {
         service = new EventReminderService('test');
     });
 
-    test('getter Events should return an array', () => {
+    test('`get Events()` should be an array', () => {
         expect(service.Events).toBeInstanceOf(Array);
     });
 
-    test('getter ServiceId should return a string', () => {
+    test('`get ServiceId()` should be a string', () => {
         expect(typeof service.ServiceId).toBe('string');
     });
 
-    test('Load() should return an array of IEventReminder', async () => {
+    test('`Load()` should return an array', async () => {
         jest.spyOn(fs, 'readFile').mockImplementationOnce(async () => JSON.stringify([mockEvent]));
         const events = await EventReminderService.Load('test');
         expect(events).toStrictEqual([mockEvent]);
     });
 
-    test('Load() should return undefined', async () => {
+    test('`Load()` should return undefined', async () => {
         jest.spyOn(fs, 'readFile').mockImplementationOnce(async () => {
             throw 'file doesnt exist';
         });
@@ -42,12 +42,12 @@ describe('Event Reminder Service', () => {
         expect(events).toBeUndefined();
     });
 
-    test('save() should emit onEventReminderSaved', (done) => {
+    test('`save()` should emit onEventReminderSaved', (done) => {
         service.once('onEventReminderSaved', done);
         service.save();
     });
 
-    test('addEvent() should emit onEventReminderSaved with added event as param', (done) => {
+    test('`addEvent()` should emit onEventReminderSaved', (done) => {
         service.once('onEventReminderAdded', (event) => {
             expect(event).toStrictEqual(mockEvent);
             expect(service.Events.length).toBe(1);
@@ -56,7 +56,7 @@ describe('Event Reminder Service', () => {
         service.addEvent(mockEvent);
     });
 
-    test('removeEvent() should emit onEventReminderRemoved with removed event as param', (done) => {
+    test('`removeEvent()` should emit onEventReminderRemoved', (done) => {
         service.once('onEventReminderRemoved', (event) => {
             expect(event).toStrictEqual(mockEvent);
             expect(service.Events.length).toBe(0);
@@ -66,7 +66,7 @@ describe('Event Reminder Service', () => {
         service.removeEvent(0);
     });
 
-    test('triggerEvent() should emit onEventReminderTriggered with triggered event as param', (done) => {
+    test('`triggerEvent()` should emit onEventReminderTriggered', (done) => {
         service.once('onEventReminderTriggered', (event) => {
             expect(event).toStrictEqual(mockEvent);
             expect(service.Events.length).toBe(0);
@@ -76,7 +76,7 @@ describe('Event Reminder Service', () => {
         service.triggerEvent(0);
     });
 
-    test('start() should start the service and emit onServiceStarted', (done) => {
+    test('`start()` should start service and emit onServiceStarted', (done) => {
         service.on('onServiceStarted', () => {
             expect(service.Started).toBe(true);
             done();
@@ -84,7 +84,7 @@ describe('Event Reminder Service', () => {
         service.start();
     });
 
-    test('stop() should stop the service and emit onServiceStopped', (done) => {
+    test('`stop()` should stop service and emit onServiceStopped', (done) => {
         service.on('onServiceStarted', () => service.stop());
         service.on('onServiceStopped', () => {
             expect(service.Started).toBe(false);
@@ -93,7 +93,7 @@ describe('Event Reminder Service', () => {
         service.start();
     });
 
-    test('expect process to auto-restart', async () => {
+    test('`process()` should auto-restart after completion', async () => {
         await service.process();
         expect(setTimeout).toHaveBeenCalledTimes(1);
         expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 1000);
@@ -101,7 +101,7 @@ describe('Event Reminder Service', () => {
         expect(setTimeout).toHaveBeenCalledTimes(2);
     });
 
-    test('expect process() to triggerEvent', async () => {
+    test('`process()` should call `triggerEvent()`', async () => {
         service.addEvent(mockEvent);
 
         const spy = jest.spyOn(service, 'triggerEvent');
@@ -111,7 +111,7 @@ describe('Event Reminder Service', () => {
         spy.mockRestore();
     });
 
-    test('expect process() to not triggerEvent', async () => {
+    test('`process()` should not call `triggerEvent()`', async () => {
         const spy = jest.spyOn(service, 'triggerEvent');
 
         await service.process();
@@ -120,7 +120,7 @@ describe('Event Reminder Service', () => {
         spy.mockRestore();
     });
 
-    test('expect process() to call save()', async () => {
+    test('`process()` should call `save()`', async () => {
         service.addEvent(mockEvent);
 
         const spy = jest.spyOn(service, 'save');

@@ -1,0 +1,7 @@
+
+<notification-item 
+    *ngFor="let notification of notifications; let i = index" 
+    (click)="closeNotification(i)" 
+    [notification]="notification"
+    [@notificationAnimation]="'in'">
+</notification-item>
