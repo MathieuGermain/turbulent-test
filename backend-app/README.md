@@ -10,6 +10,22 @@ Multiple instances can run by setting unique values in `.env` config.
 
 <br>
 
+**Default `.env`**
+```yml
+SERVICE_ID = MyService
+HOST = 127.0.0.1
+PORT = 3344
+```
+
+**Persistence**
+- `EventReminders` are stored in `home` directory.  
+- The filename is the `Service ID`.
+```yml
+<home_dir>/EventReminders/<service_id>.json
+```
+
+<br>
+
 ## Usage
 
 Make sure you have **yarn** installed globally.
@@ -37,3 +53,9 @@ Run Jest Tests
 ```bash
 yarn test
 ```
+
+<br>
+
+# Preview
+
+![Preview 1](../.github/images/back-end-preview-1.png)
