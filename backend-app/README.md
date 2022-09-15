@@ -25,15 +25,15 @@ yarn
 
 Build the server for production
 ```bash
-yarn prod:build
-```
-
-Run Jest Tests
-```bash
-yarn prod:test
+yarn build
 ```
 
 Start the server
 ```bash
 yarn start
+```
+
+Run Jest Tests
+```bash
+yarn test
 ```

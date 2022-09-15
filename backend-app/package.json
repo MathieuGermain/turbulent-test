@@ -7,11 +7,11 @@
   "scripts": {
     "clean": "del-cli -f ./dist ./types",
     "lint": "yarn run eslint --fix --ext .ts src --cache src --cache-location node_modules/.cache/",
+    "build:watch": "nodemon",
+    "test:watch": "jest --watch",
+    "build": "yarn clean && yarn lint && yarn run tsc",
     "start": "node ./dist/index.js",
-    "dev:build": "nodemon",
-    "dev:test": "jest --watch",
-    "prod:build": "yarn clean && yarn lint && yarn run tsc",
-    "prod:test": "jest --ci"
+    "test": "jest"
   },
   "author": "MathieuGermain",
   "license": "MIT",
