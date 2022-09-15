@@ -39,14 +39,14 @@ describe('EventReminderApplication', () => {
         expect(app.EventReminderService).toBeInstanceOf(EventReminderService);
     });
 
-    it('`start()`should start the server', (done) => {
+    test('`start()`should start the server', (done) => {
         app.start().then(() => {
             expect(app.HttpServer.listening).toBeTruthy();
             done();
         });
     });
 
-    it('`stop()` should stop the server', (done) => {
+    test('`stop()` should stop the server', (done) => {
         app.start().then(() => {
             app.stop().then(() => {
                 expect(app.HttpServer.listening).toBeFalsy();
