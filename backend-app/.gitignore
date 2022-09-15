@@ -1,12 +1,12 @@
 # NPM
-node_modules/
+node_modules
 
 # jest
 /coverage
 
 # Sources
-dist/
-types/
+/dist
+/types
 
 # Archives
 *.tgz
