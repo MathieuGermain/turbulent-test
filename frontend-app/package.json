@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "Frontend event reminder app",
   "scripts": {
-    "serve": "ng serve",
     "test": "ng test",
+    "serve": "ng serve",
     "build:dev": "ng build --watch --configuration development",
     "build:prod": "ng build",
-    "server": "ng build && yarn run http-server -p 8080 -c-1 dist/angular-app"
+    "webworker": "ng build && yarn run http-server -p 8080 -c-1 dist/angular-app"
   },
   "private": true,
   "dependencies": {
