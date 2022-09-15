@@ -3,7 +3,6 @@ import { connect, Socket as ClientSocket } from 'socket.io-client';
 import { EventReminderApplication, ServerAlreadyListeningError } from './application';
 import { EventReminderService, IEventReminder } from './service/event-reminder';
 
-describe('Event Reminder Application', () => {
     let app: EventReminderApplication;
     let client: ClientSocket;
 

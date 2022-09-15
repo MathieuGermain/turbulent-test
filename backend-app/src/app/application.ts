@@ -5,8 +5,8 @@ import { EventReminderService, IEventReminder } from './service/event-reminder';
 import { Session } from './session';
 
 /**
- * Thrown while trying to start the server
- * and it's is already running.
+ * ServerAlreadyListeningError class.
+ * Is thrown when trying to start the server and it's is already running.
  */
 export class ServerAlreadyListeningError extends Error {
     constructor(message?: string) {
@@ -16,7 +16,8 @@ export class ServerAlreadyListeningError extends Error {
 }
 
 /**
- * Event Reminder Application class
+ * Event Reminder Application class.
+ * Main class of the application, handles the server and service.
  */
 export class EventReminderApplication {
     /**
@@ -48,13 +49,18 @@ export class EventReminderApplication {
      * @param id pass a unique ID for the service
      */
     constructor(id: string) {
+        // Create a new http server
         this.httpServer = createServer();
+
+        // Create a socket server with http server attached
         this.socketServer = new SocketServer(this.httpServer, {
             cors: {
                 origin: '*',
                 methods: ['GET'],
             },
         });
+
+        // Create the event reminder service
         this.eventReminderService = new EventReminderService(id);
 
         // Wait for event reminder to trigger and emit to everyone
@@ -91,6 +97,9 @@ export class EventReminderApplication {
 
     /**
      * Stop the server.
+     * - Disconnect all clients
+     * - Close the socket server
+     * - Close the http server
      */
     public stop() {
         return new Promise<void>((resolve) => {
