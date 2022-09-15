@@ -8,7 +8,7 @@ import { Session } from './session';
  * Thrown while trying to start the server
  * and it's is already running.
  */
-export class ServerAlreadyListening extends Error {
+export class ServerAlreadyListeningError extends Error {
     constructor(message?: string) {
         super(message || 'The server is already listening!');
         this.name = 'ServerAlreadyListening';
@@ -79,7 +79,7 @@ export class EventReminderApplication {
      */
     public start(port = 0, host = 'localhost') {
         return new Promise<number>((resolve) => {
-            if (this.httpServer.listening) throw new ServerAlreadyListening();
+            if (this.httpServer.listening) throw new ServerAlreadyListeningError();
 
             this.httpServer.listen(port, host, () => {
                 port = (this.httpServer.address() as AddressInfo).port;

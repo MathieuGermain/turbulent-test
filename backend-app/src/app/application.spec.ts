@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import { connect, Socket as ClientSocket } from 'socket.io-client';
-import { EventReminderApplication, ServerAlreadyListening } from './application';
+import { EventReminderApplication, ServerAlreadyListeningError } from './application';
 import { EventReminderService, IEventReminder } from './service/event-reminder';
 
 describe('Event Reminder Application', () => {
@@ -65,6 +65,7 @@ describe('Event Reminder Application', () => {
     });
 
     test('client should receive EventReminderTriggered when app service onEventReminderTriggered is emitted', (done) => {
+                expect(error).toBeInstanceOf(ServerAlreadyListeningError);
         app.start().then((port) => {
             client = connect(`http://localhost:${port}`);
             client.on('connect', () => {
