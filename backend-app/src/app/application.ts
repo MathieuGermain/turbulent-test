@@ -69,9 +69,6 @@ export class EventReminderApplication {
 
         // Create socket session on connection
         this.socketServer.on('connection', (socket) => new Session(this.eventReminderService, socket));
-
-        // Handle application closing
-        process.on('SIGINT', () => this.stop());
     }
 
     /**
