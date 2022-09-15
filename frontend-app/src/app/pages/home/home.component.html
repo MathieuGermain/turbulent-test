@@ -1,4 +1,4 @@
-<addevent-overlay [opened]="overlayOpened" (closed)="overlayOpened = false"></addevent-overlay>
+<add-event-overlay [(opened)]="overlayOpened"></add-event-overlay>
 
 <div class="container">
     
@@ -10,7 +10,7 @@
 
     <div class="separator"></div>
 
-    <event-list [events]="events"></event-list>
+    <event-list [events]="sortedEvents"></event-list>
 
     <p class="footer-notice">Copyright &copy; Mathieu Germain 2022</p>
 

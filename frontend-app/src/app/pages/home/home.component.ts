@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { EventReminderService, IEventReminder } from 'src/app/services/event-reminder-service.service';
 
@@ -9,19 +9,25 @@ import { EventReminderService, IEventReminder } from 'src/app/services/event-rem
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
+  sortedEvents: IEventReminder[] = [];
   overlayOpened: boolean = false;
-  events: IEventReminder[] = [];
 
-  private onEventsUpdateSub!: Subscription;
+  get events() {
+    return this.service.events;
+  }
 
-  constructor(private eventReminder: EventReminderService) { }
+  private onEventsChangedSub!: Subscription;
+
+  constructor(private service: EventReminderService) { }
 
   ngOnInit(): void {
-    this.onEventsUpdateSub = this.eventReminder.onEventUpdate.subscribe((events) => this.events = events);
+    this.onEventsChangedSub = this.service.onEventRemindersChanged.subscribe((updatedEvents) => {
+      this.sortedEvents = updatedEvents.concat().sort((a, b) => a.triggerTime - b.triggerTime);
+    });
   }
 
   ngOnDestroy(): void {
-    this.onEventsUpdateSub?.unsubscribe();
+    this.onEventsChangedSub?.unsubscribe();
   }
 
 }
