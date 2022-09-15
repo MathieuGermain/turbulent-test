@@ -1,15 +1,23 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 export interface INotification {
   title: string,
   message: string
 }
 
+export interface INotificationService {
+  get available(): boolean;
+  get granted(): boolean;
+  onNotificationAdded: Subject<INotification>;
+  enable(): Promise<void>;
+  send(title: string, message: string, webNotificationOptions?: NotificationOptions): Promise<Notification | undefined>;
+}
+
 @Injectable({
   providedIn: 'root'
 })
-export class NotificationService {
+export class NotificationService implements INotificationService {
 
   /**
    * Verify if the Notification API is available in this browser.
@@ -66,4 +74,20 @@ export class NotificationService {
     return;
   }
   
+}
+
+export class NotificationServiceMock implements INotificationService {
+  get available(): boolean {
+    return false;
+  }
+  get granted(): boolean {
+    return false;
+  }
+  onNotificationAdded = new Subject<INotification>();
+  async enable(): Promise<void> {
+    return;
+  }
+  async send(title: string, message: string, webNotificationOptions?: NotificationOptions | undefined): Promise<Notification | undefined> {
+    return undefined;
+  }
 }
