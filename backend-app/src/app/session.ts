@@ -13,7 +13,7 @@ export class Session {
     private service: EventReminderService;
 
     public get connected() {
-        return this.socket && this.socket.connected;
+        return this.socket != undefined && this.socket.connected;
     }
 
     constructor(service: EventReminderService, socket: Socket) {
