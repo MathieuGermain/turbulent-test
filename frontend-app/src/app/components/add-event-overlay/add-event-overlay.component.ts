@@ -2,14 +2,14 @@ import { NgxMatDatetimePicker } from '@angular-material-components/datetime-pick
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { interval, Subscription } from 'rxjs';
-import { EventReminderService } from 'src/app/services/event-reminder-service.service';
+import { EventReminderService } from 'src/app/services/event-reminder.service';
 
 @Component({
   selector: 'add-event-overlay',
   templateUrl: './add-event-overlay.component.html',
   styleUrls: ['./add-event-overlay.component.scss']
 })
-export class AddeventOverlayComponent implements OnInit, OnDestroy {
+export class AddEventOverlayComponent implements OnInit, OnDestroy {
 
   @Input() opened: boolean = false;
   @Output() openedChange = new EventEmitter<boolean>();
