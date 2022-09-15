@@ -1,0 +1,19 @@
+@import '../../../styles/vars';
+
+:host {
+    width: 300px;
+    height: auto;
+    display: block;
+    padding: 20px;
+    margin-top: 20px;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    border-radius: 10px;
+    box-shadow: $box-shadow;
+    background-color: rgba(255, 255, 255, 0.75);
+
+    h1 {
+        padding-bottom: 10px;
+    }
+}
