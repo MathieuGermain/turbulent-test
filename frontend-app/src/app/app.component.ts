@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { EventReminderService } from './services/event-reminder-service.service';
+import { EventReminderService } from './services/event-reminder.service';
 
 @Component({
   selector: 'app-root',
@@ -9,8 +9,8 @@ import { EventReminderService } from './services/event-reminder-service.service'
 export class AppComponent {
 
   get connected() {
-    return this.service.connected;
+    return this.eventReminderService.connected;
   }
 
-  constructor(private service: EventReminderService) { }
+  constructor(private eventReminderService: EventReminderService) {}
 }
