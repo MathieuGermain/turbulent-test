@@ -30,12 +30,13 @@ describe('Socket Session', () => {
 
         httpServer = createServer();
         io = new Server(httpServer);
-        httpServer.listen(done);
+        httpServer.listen(() => done());
     });
 
     // Stop socket server at end of test suite
     afterAll((done) => {
-        httpServer.close(done);
+        io.disconnectSockets(true);
+        io.close(() => httpServer.close(() => done()));
     });
 
     // Connect new socket before each test.
