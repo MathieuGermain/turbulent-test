@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import { connect, Socket as ClientSocket } from 'socket.io-client';
 import { EventReminderApplication, ServerAlreadyListeningError } from './application';
-import { EventReminderService, IEventReminder } from './service/event-reminder';
+import { EventReminderService, IEventReminder } from './event-reminder';
 
 describe('EventReminderApplication', () => {
     let app: EventReminderApplication;

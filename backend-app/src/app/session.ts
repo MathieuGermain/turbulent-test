@@ -1,5 +1,5 @@
 import { Socket } from 'socket.io';
-import { EventReminderService, IEventReminder } from './service/event-reminder';
+import { EventReminderService, IEventReminder } from './event-reminder';
 
 /**
  * Session class.

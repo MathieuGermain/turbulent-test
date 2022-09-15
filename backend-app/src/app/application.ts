@@ -1,7 +1,7 @@
 import { createServer, Server as HttpServer } from 'http';
 import { AddressInfo } from 'net';
 import { Server as SocketServer } from 'socket.io';
-import { EventReminderService, IEventReminder } from './service/event-reminder';
+import { EventReminderService, IEventReminder } from './event-reminder';
 import { Session } from './session';
 
 /**

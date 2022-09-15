@@ -4,7 +4,7 @@ import { createServer, Server as HttpServer } from 'http';
 import { Server, Socket as ServerSocket } from 'socket.io';
 import { connect, Socket as ClientSocket } from 'socket.io-client';
 import { Session } from './session';
-import { EventReminderService } from './service/event-reminder';
+import { EventReminderService } from './event-reminder';
 
 describe('Session', () => {
     /** socket server */
