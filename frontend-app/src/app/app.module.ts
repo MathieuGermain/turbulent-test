@@ -3,14 +3,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-// Material
-
-import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatStepperModule } from '@angular/material/stepper';
-import { MatIconModule } from '@angular/material/icon';
-import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
-
 // App
 
 import { AppComponent } from './app.component';
@@ -25,25 +17,24 @@ import { HomeComponent } from './pages/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { EventListComponent } from './components/event-list/event-list.component';
 import { EventItemComponent } from './components/event-item/event-item.component';
-import { AddeventOverlayComponent } from './components/addevent-overlay/addevent-overlay.component';
+import { AddeventOverlayComponent as AddEventOverlayComponent } from './components/add-event-overlay/add-event-overlay.component';
 
 // Directives
 
 import { InViewDirective } from './directives/in-view.directive';
 
-// Pipes
-
-import { OrderByPipe } from './pipes/order-by.pipe';
-
 // SocketIO
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { ConnectionOverlayComponent } from './components/connection-overlay/connection-overlay.component';
+import { MaterialModule } from './material.module';
 
 const config: SocketIoConfig = {
   url: 'http://localhost:3344',
   options: {
-    autoConnect: false,
-    reconnection: true
+    autoConnect: true,
+    reconnection: true,
+    rememberUpgrade: true
   }
 };
 
@@ -55,8 +46,8 @@ const config: SocketIoConfig = {
     EventListComponent,
     EventItemComponent,
     InViewDirective,
-    OrderByPipe,
-    AddeventOverlayComponent
+    AddEventOverlayComponent,
+    ConnectionOverlayComponent
   ],
   imports: [
     FormsModule,
@@ -64,13 +55,7 @@ const config: SocketIoConfig = {
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    MatIconModule,
-    MatInputModule,
-    MatStepperModule,
-    MatDatepickerModule,
-    NgxMatDatetimePickerModule,
-    NgxMatTimepickerModule,
-    NgxMatNativeDateModule,
+    MaterialModule,
     SocketIoModule.forRoot(config)
   ],
   providers: [],
