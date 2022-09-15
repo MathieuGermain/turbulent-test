@@ -4,7 +4,7 @@
     width: 100%;
     display: flex;
 
-    .wrapper {
+    .card {
         width: 100%;
         height: auto;
         padding: 15px;
@@ -17,6 +17,10 @@
         border-radius: 15px;
         box-shadow: $box-shadow-transparent;
         transition: 0.2s ease-in-out;
+
+        &:hover {
+            box-shadow: $box-shadow;
+        }
     }
     
 
@@ -77,12 +81,8 @@
         };
     }
 
-    &:hover {
-        box-shadow: $box-shadow;
-    }
-
     @media screen and (min-width: 728px) {
-        .wrapper {
+        .card {
             width: 100%;
             flex-direction: none;
         }

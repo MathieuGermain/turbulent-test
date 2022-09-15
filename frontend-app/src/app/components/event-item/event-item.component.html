@@ -1,14 +1,11 @@
-<div class="wrapper" [@visible]="visibility" InView (visibilityChange)="visibilityChanged($event)">
+<div class="card" [@visible]="visibility" InView (visibilityChange)="visibilityChanged($event)">
 
     <div class="horizontal-group">
         <span class="image">
             <span class="letter">L</span>
         </span>
     
-        <div>
-            <span class="title">{{event.title}}</span>
-            <p class="message">{{event.message}}</p>
-        </div>
+        <span class="title">{{event.title}}</span>
     </div>
     
     <div class="time-left">
