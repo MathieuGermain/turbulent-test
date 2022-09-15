@@ -1,17 +1,24 @@
 import { Socket } from 'socket.io';
 import { EventReminderService, IEventReminder } from './service/event-reminder';
 
+/**
+ * Session class.
+ * Instanciate a session when a client connect to the websocket and handle the event operations.
+ */
 export class Session {
     private socket?: Socket;
 
     /**
-     * Get the instance of the service
+     * Get service instance
      */
     public get Service() {
         return this.service;
     }
     private service: EventReminderService;
 
+    /**
+     * Check if this session is connected to the socket
+     */
     public get connected() {
         return this.socket != undefined && this.socket.connected;
     }
