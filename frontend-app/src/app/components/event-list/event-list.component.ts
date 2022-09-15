@@ -8,13 +8,9 @@ import { IEventReminder } from 'src/app/services/event-reminder-service.service'
 })
 export class EventListComponent implements OnInit {
 
-  @Input() events!: IEventReminder[];
+  @Input() events: IEventReminder[] = [];
 
   constructor() { }
-
-  isEventVisible(event: IEventReminder) {
-    return event.triggerTime > Date.now();
-  }
 
   ngOnInit(): void {
 
