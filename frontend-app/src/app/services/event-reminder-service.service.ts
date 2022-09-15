@@ -15,15 +15,18 @@ export interface IEventReminder {
  * Event Reminder Service interface
  */
 export interface IEventReminderService {
-  get Events(): IEventReminder[]
+  get connected(): boolean
+  get events(): IEventReminder[]
+  
   onConnectionChanged: BehaviorSubject<boolean>
-  onEventUpdate: Subject<IEventReminder[]>
+  onEventRemindersChanged: Subject<IEventReminder[]>
   onEventReminderTriggered: Subject<IEventReminder>
   onEventReminderAdded: Subject<IEventReminder>
-  Connect(): void
-  Disconnect(): void
-  AddEventReminder(event: IEventReminder): boolean
-  CreateEventReminder(title: string, message: string, date: Date): IEventReminder
+
+  connect(): void
+  disconnect(): void
+  sendNewEventReminder(event: IEventReminder): boolean
+  createEventReminder(title: string, message: string, date: Date): IEventReminder
 }
 
 /**
@@ -35,12 +38,18 @@ export interface IEventReminderService {
 export class EventReminderService implements IEventReminderService {
 
   /**
-   * Get all Events
+   * Check if service is connected to the backend
    */
-  public get Events() {
-    return this.events;
+   public get connected() {
+    return this.onConnectionChanged.value;
   }
-  private events: IEventReminder[] = [];
+
+  /**
+   * Get the latest events snapshop
+   */
+  public get events() {
+    return this.onEventRemindersChanged.value;
+  }
 
   /**
    * Observe connection state change.
@@ -49,9 +58,9 @@ export class EventReminderService implements IEventReminderService {
   public onConnectionChanged = new BehaviorSubject(false);
 
   /**
-   * Observe events updates.
+   * Observe and store event reminders.
    */
-  public onEventUpdate = new BehaviorSubject<IEventReminder[]>([]);
+  public onEventRemindersChanged = new BehaviorSubject<IEventReminder[]>([]);
 
   /**
    * Observe event reminder triggered.
@@ -64,62 +73,54 @@ export class EventReminderService implements IEventReminderService {
   public onEventReminderAdded = new Subject<IEventReminder>();
 
   constructor(private socket: Socket) {
-    this.initializeSocket();
-  }
-
-  private initializeSocket() {
-    this.socket.removeAllListeners();
-
+    // Wait for connection
     this.socket.on('connect', () => {
+
       console.log('Connection to the backend successful!');
       this.onConnectionChanged.next(true);
+    });
 
-      // Receive all event reminders
-      this.socket.on('Events', (events: IEventReminder[]) => {
-        console.log('Received events', events);
-        this.events = events;
-        this.onEventUpdate.next(this.events);
-      });
+    // Receive all event reminders
+    this.socket.on('Events', (events: IEventReminder[]) => {
+      console.log('Received events', events);
+      this.onEventRemindersChanged.next(events);
+    });
 
-      // Receive event reminder has triggered
-      this.socket.on('EventReminderTriggered', (event: IEventReminder, index: number) => {
-        console.log('An event triggered', event, index);
-        this.events.splice(index);
-        this.onEventUpdate.next(this.events);
-        this.onEventReminderTriggered.next(event);
-      });
+    // Receive event reminder has triggered
+    this.socket.on('EventReminderTriggered', (event: IEventReminder, index: number) => {
+      console.log('An event triggered', event, index);
+      this.onEventRemindersChanged.value.splice(index, 1);
+      this.onEventRemindersChanged.next(this.onEventRemindersChanged.value);
+      this.onEventReminderTriggered.next(event);
+    });
 
-      // Receive event reminder has been added
-      this.socket.on('EventReminderAdded', (event: IEventReminder) => {
-        console.log('An event has been added', event);
-        this.events.push(event);
-        this.onEventUpdate.next(this.events);
-        this.onEventReminderAdded.next(event);
-      });
+    // Receive event reminder has been added
+    this.socket.on('EventReminderAdded', (event: IEventReminder) => {
+      console.log('An event has been added', event);
+      this.onEventRemindersChanged.value.push(event);
+      this.onEventRemindersChanged.next(this.onEventRemindersChanged.value);
+      this.onEventReminderAdded.next(event);
+    });
 
-      // Handle disconnection
-      this.socket.on('disconnect', () => {
-        console.log('Connection to the backend lost...');
-        this.onConnectionChanged.next(false);
-        this.initializeSocket();
-      });
+    // Handle disconnection
+    this.socket.on('disconnect', () => {
+      console.log('Connection to the backend lost...');
+      this.onConnectionChanged.next(false);
     });
   }
-
+  
   /**
    * Connect to the backend
    */
-  public Connect() {
-    if (this.socket.ioSocket.connected) return;
-    this.socket.connect();
+  public connect() {
+    if (!this.connected) this.socket.connect();
   }
 
   /**
    * Disconnect from the backend
    */
-  public Disconnect() {
-    if (!this.socket.ioSocket.connected) return;
-    this.socket.disconnect();
+  public disconnect() {
+    if (this.connected) this.socket.disconnect();
   }
 
   /**
@@ -127,8 +128,8 @@ export class EventReminderService implements IEventReminderService {
    * @param event the event reminder to add
    * @returns true if it was sent
    */
-  public AddEventReminder(event: IEventReminder) {
-    if (!this.socket.ioSocket.connected) return false;
+  public sendNewEventReminder(event: IEventReminder) {
+    if (!this.connected || event.triggerTime < Date.now()) return false;
     this.socket.emit('AddEventReminder', event);
     return true;
   }
@@ -140,7 +141,7 @@ export class EventReminderService implements IEventReminderService {
    * @param date the Date object at which the event will trigger
    * @returns object of type IEventReminder
    */
-  public CreateEventReminder(title: string, message: string, date: Date): IEventReminder {
+  public createEventReminder(title: string, message: string, date: Date): IEventReminder {
     return {
       title,
       message,
