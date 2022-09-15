@@ -50,6 +50,7 @@ export class EventReminderService extends EventEmitter {
 
     /**
      * Load stored events from a file
+     * @returns the loaded array or undefined
      */
     public static async Load(serviceId: string) {
         try {
@@ -75,7 +76,7 @@ export class EventReminderService extends EventEmitter {
 
     /**
      * Add an event
-     * @param event
+     * @param event the event to add
      */
     public addEvent(event: IEventReminder) {
         const index = this.events.push(event);
@@ -84,7 +85,7 @@ export class EventReminderService extends EventEmitter {
 
     /**
      * Remove an event
-     * @param index
+     * @param index the index of the event to remove
      */
     public removeEvent(index: number) {
         if (this.events[index]) {
@@ -96,7 +97,7 @@ export class EventReminderService extends EventEmitter {
 
     /**
      * Trigger an event and remove it
-     * @param index
+     * @param index the index of the event to trigger and remove
      */
     public triggerEvent(index: number) {
         if (this.events[index]) {
