@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Socket } from 'ngx-socket-io';
+import { NotificationService } from './notification.service';
 
 /**
  * Event Reminder Interface
@@ -72,7 +73,7 @@ export class EventReminderService implements IEventReminderService {
    */
   public onEventReminderAdded = new Subject<IEventReminder>();
 
-  constructor(private socket: Socket) {
+  constructor(private socket: Socket, private notification: NotificationService) {
     // Wait for connection
     this.socket.on('connect', () => {
 
@@ -87,11 +88,13 @@ export class EventReminderService implements IEventReminderService {
     });
 
     // Receive event reminder has triggered
-    this.socket.on('EventReminderTriggered', (event: IEventReminder, index: number) => {
+    this.socket.on('EventReminderTriggered', async (event: IEventReminder, index: number) => {
       console.log('An event triggered', event, index);
       this.onEventRemindersChanged.value.splice(index, 1);
       this.onEventRemindersChanged.next(this.onEventRemindersChanged.value);
       this.onEventReminderTriggered.next(event);
+
+      this.notification.send(event.title, event.message);
     });
 
     // Receive event reminder has been added
