@@ -9,6 +9,11 @@ Even if it wasn't required I created this small Angular frontend to visualize an
 
 <br>
 
+## Connection to backend
+By default, it is set to connect to the backend on `http://localhost:3344/`
+
+<br>
+
 ## Usage
 
 Make sure you have **yarn** installed globally.
