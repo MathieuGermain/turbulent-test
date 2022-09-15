@@ -63,12 +63,12 @@ describe('Socket Session', () => {
 
     test('expect session.connected to be falsy when session.disconnect() is called', () => {
         session.disconnect();
-        expect(session.connected).toBeFalsy();
+        expect(session.connected).toBe(false);
     });
 
     test('expect the client connection to be closed when session.disconnect() is called', (done) => {
         clientSocket.on('disconnect', () => {
-            expect(clientSocket.connected).toBeFalsy();
+            expect(clientSocket.connected).toBe(false);
             done();
         });
         session.disconnect();

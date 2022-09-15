@@ -20,7 +20,7 @@ export class Session {
      * Check if this session is connected to the socket
      */
     public get connected() {
-        return this.socket != undefined && this.socket.connected;
+        return this.socket && this.socket.connected;
     }
 
     constructor(service: EventReminderService, socket: Socket) {
