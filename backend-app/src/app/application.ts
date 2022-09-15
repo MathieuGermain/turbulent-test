@@ -11,7 +11,7 @@ import { Session } from './session';
 export class ServerAlreadyListeningError extends Error {
     constructor(message?: string) {
         super(message || 'The server is already listening!');
-        this.name = 'ServerAlreadyListening';
+        this.name = 'ServerAlreadyListeningError';
     }
 }
 
