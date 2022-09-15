@@ -47,7 +47,7 @@ describe('EventReminderService', () => {
         service.save();
     });
 
-    test('`addEvent()` should emit onEventReminderSaved', (done) => {
+    test('`addEvent()` should emit onEventReminderAdded', (done) => {
         service.once('onEventReminderAdded', (event) => {
             expect(event).toStrictEqual(mockEvent);
             expect(service.Events.length).toBe(1);
