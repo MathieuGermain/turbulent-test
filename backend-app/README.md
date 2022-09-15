@@ -3,7 +3,10 @@
 [![CI](https://github.com/MathieuGermain/turbulent-test/actions/workflows/backend-ci.yml/badge.svg)](https://github.com/MathieuGermain/turbulent-test/actions/workflows/backend-ci.yml)
 ![Coverage](../badges/coverage-jest%20coverage.svg)
 
-Backend event reminder app.
+## Event Reminder Backend Application
+This piece of software is in charge of handling client connections and processing `Event Reminders` so that it triggers in due time.
+
+Multiple instances can run by setting unique values in `.env` config.
 
 <br>
 
@@ -15,17 +18,22 @@ Make sure you have **yarn** installed globally.
 npm install --global yarn
 ```
 
-Install Dependencies
+Install dependencies
 ```bash
-yarn install
+yarn
 ```
 
-Build Project
+Build the server for production
 ```bash
-yarn run prod:build
+yarn prod:build
 ```
 
-Start Backend
+Run Jest Tests
 ```bash
-yarn run start
+yarn prod:test
+```
+
+Start the server
+```bash
+yarn start
 ```
