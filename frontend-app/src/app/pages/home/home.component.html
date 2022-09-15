@@ -3,9 +3,17 @@
 <div class="container">
     
     <div class="header">
-        <h1>Events <span class="alt-color">/</span> Schedule</h1>
+        <h1>Event Reminder <span class="alt-color">/</span> App</h1>
 
-        <button mat-button (click)="overlayOpened = true">Add Event</button>
+        <div class="buttons-container">
+            <button mat-button class="icon" (click)="overlayOpened = true">
+                <mat-icon>add</mat-icon>
+            </button>
+
+            <button mat-button class="icon" *ngIf="nofiticationButtonVisible" (click)="enableNotification()">
+                <mat-icon>notifications</mat-icon>
+            </button>
+        </div>
     </div>
 
     <div class="separator"></div>
