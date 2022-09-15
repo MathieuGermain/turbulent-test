@@ -7,7 +7,10 @@ import { EventReminderService } from './services/event-reminder-service.service'
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(service: EventReminderService) {
-    service.Connect();
+
+  get connected() {
+    return this.service.connected;
   }
+
+  constructor(private service: EventReminderService) { }
 }
